@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'core/widgets/custom_bottom_navbar.dart';
+// ... import halaman lainnya ...
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -10,38 +12,28 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
-  // List halaman nanti akan diisi oleh Page dari masing-masing anggota
   final List<Widget> _pages = [
-    const Center(child: Text("Halaman Product (Anggota 1)")),
-    const Center(child: Text("Halaman Supplier (Anggota 2)")),
-    const Center(child: Text("Halaman Category (Anggota 3)")),
+    // ... pages anda ...
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white, // Pastikan background scaffold putih
+      
+      // --- TAMBAHKAN BARIS INI (WAJIB) ---
+      extendBody: true, 
+      // Artinya: Paksa konten halaman memanjang sampai ke belakang navbar
+      // -----------------------------------
+      
       body: _pages[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
+      bottomNavigationBar: CustomBottomNavBar(
+        selectedIndex: _currentIndex,
         onTap: (index) {
           setState(() {
             _currentIndex = index;
           });
         },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.inventory_2),
-            label: 'Product',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_shipping),
-            label: 'Supplier',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.category),
-            label: 'Category',
-          ),
-        ],
       ),
     );
   }

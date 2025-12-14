@@ -8,5 +8,10 @@ class AppColors {
   static const Color textBlack = Color(0xFF000000);
 
   static const Color primaryGreen = Color(0xFFA4EC88); // Sesuaikan hex dari desain
-  static const Color greyBackground = Color(0xFFF3F3F3);
+  static const Color greyBackground = Color(0xFFFBFBFB);
+  
+  // Warna Baru sesuai Product.png
+  static const Color accentYellow = Color(0xFFECCE9F); // Warna Badge Stok (Kuning)
+  static const Color textGrey = Color(0xFF939393); // Warna ID & Kategori
+  static const Color cardShadow = Colors.black12; // Bayangan kartu
 }
