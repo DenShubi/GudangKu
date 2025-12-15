@@ -4,6 +4,7 @@ import 'features/category/presentation/pages/category_list_page.dart';
 import 'core/widgets/custom_bottom_navbar.dart';
 import 'features/product/presentation/pages/product_list_page.dart'; 
 import 'features/auth/presentation/pages/setting_page.dart';
+import 'features/home/presentation/pages/home_page.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -15,11 +16,11 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   // Index awal = 1 (Product). 
   // Pastikan list _pages punya minimal 2 item supaya tidak error.
-  int _currentIndex = 1; 
+  int _currentIndex = 0; 
 
   // --- BAGIAN INI TIDAK BOLEH KOSONG ---
   final List<Widget> _pages = [
-    const Center(child: Text("Halaman Home")),        // Index 0
+    const HomePage(),        // Index 0
     const ProductListPage(),                          // Index 1 (Product)
     const SupplierListPage(),    // Index 2
     const CategoryListPage(),    // Index 3

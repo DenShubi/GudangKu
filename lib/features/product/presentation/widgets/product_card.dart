@@ -20,6 +20,23 @@ class ProductCard extends StatelessWidget {
     this.imageUrl,
   });
 
+  // Helper untuk menentukan warna background kotak stok
+  Color _getStockColor(int stock) {
+    if (stock > 50) {
+      return const Color(0xFFA3E635); // Hijau Lime cerah (sesuai gambar)
+    } else if (stock >= 10) {
+      return const Color(0xFFFDE047); // Kuning
+    } else {
+      return const Color(0xFFF87171); // Merah Soft
+    }
+  }
+
+  // Helper untuk menentukan warna teks (agar kontras)
+  Color _getStockTextColor(int stock) {
+    // Karena background warna pastel/cerah, teks hitam lebih jelas
+    return Colors.black87; 
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -39,8 +56,9 @@ class ProductCard extends StatelessWidget {
           ],
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start, // Align item ke atas
           children: [
-            // 1. Image Section
+            // 1. Bagian Gambar
             Container(
               width: 80,
               height: 80,
@@ -54,37 +72,66 @@ class ProductCard extends StatelessWidget {
                       )
                     : null,
               ),
-              child: (imageUrl == null || imageUrl!.isNotEmpty == false)
+              child: (imageUrl == null || imageUrl!.isEmpty)
                   ? const Icon(Icons.image_not_supported, color: Colors.grey)
                   : null,
             ),
             
             const SizedBox(width: 16),
             
-            // 2. Information Section
+            // 2. Bagian Informasi Text
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Product Name
-                  Text(
-                    name,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  // --- ROW ATAS: NAMA & KOTAK STOK ---
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Nama Produk (Pakai Expanded agar tidak nabrak stok)
+                      Expanded(
+                        child: Text(
+                          name,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      
+                      const SizedBox(width: 8),
+
+                      // KOTAK STOK [UPDATE UI]
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: _getStockColor(stock), // Warna dinamis
+                          borderRadius: BorderRadius.circular(8), // Rounded kotak
+                        ),
+                        child: Text(
+                          "$stock",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: _getStockTextColor(stock),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  
+                  // -----------------------------------
+
                   const SizedBox(height: 4),
 
-                  // Product ID (New)
+                  // ID PRODUK
                   Text(
-                    "ID: $id", 
+                    id, 
                     style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey[600], 
+                      fontSize: 12,
+                      color: Colors.grey[500],
                       fontWeight: FontWeight.w500,
                     ),
                     maxLines: 1,
@@ -93,34 +140,33 @@ class ProductCard extends StatelessWidget {
 
                   const SizedBox(height: 4),
                   
-                  // Category Text (instead of tag)
-                  Text(
-                    category,
-                    style: const TextStyle(
-                      fontSize: 11,
-                      color: Colors.grey, 
+                  // KATEGORI (Badge Kecil)
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      category,
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: Colors.grey[700],
+                        fontWeight: FontWeight.w600
+                      ),
                     ),
                   ),
                   
                   const SizedBox(height: 8),
                   
-                  // Price & Stock Row
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Rp $price",
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black, 
-                        ),
-                      ),
-                      Text(
-                        "Stok: $stock",
-                        style: const TextStyle(fontSize: 12),
-                      ),
-                    ],
+                  // HARGA
+                  Text(
+                    price,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black, 
+                    ),
                   ),
                 ],
               ),
