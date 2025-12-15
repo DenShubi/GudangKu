@@ -40,7 +40,7 @@ class ProductCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            // 1. Bagian Gambar (Tetap sama seperti sebelumnya)
+            // 1. Image Section
             Container(
               width: 80,
               height: 80,
@@ -54,23 +54,23 @@ class ProductCard extends StatelessWidget {
                       )
                     : null,
               ),
-              child: (imageUrl == null || imageUrl!.isEmpty)
+              child: (imageUrl == null || imageUrl!.isNotEmpty == false)
                   ? const Icon(Icons.image_not_supported, color: Colors.grey)
                   : null,
             ),
             
             const SizedBox(width: 16),
             
-            // 2. Bagian Informasi Text
+            // 2. Information Section
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // NAMA PRODUK
+                  // Product Name
                   Text(
                     name,
                     style: const TextStyle(
-                      fontSize: 18, // Sedikit disesuaikan agar proporsional
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                     maxLines: 1,
@@ -79,42 +79,41 @@ class ProductCard extends StatelessWidget {
                   
                   const SizedBox(height: 4),
 
-                  // --- [BARU] ID PRODUK ---
+                  // Product ID (New)
                   Text(
-                    id, // Menampilkan ID
+                    "ID: $id", 
                     style: TextStyle(
                       fontSize: 13,
-                      color: Colors.grey[600], // Abu-abu agak gelap
+                      color: Colors.grey[600], 
                       fontWeight: FontWeight.w500,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  // ------------------------
 
                   const SizedBox(height: 4),
                   
-                  // KATEGORI
+                  // Category Text (instead of tag)
                   Text(
                     category,
                     style: const TextStyle(
                       fontSize: 11,
-                      color: Colors.grey, // Abu-abu standar
+                      color: Colors.grey, 
                     ),
                   ),
                   
                   const SizedBox(height: 8),
                   
-                  // HARGA & STOK
+                  // Price & Stock Row
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        price,
+                        "Rp $price",
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black, // Atau AppColors.primaryGreen
+                          color: Colors.black, 
                         ),
                       ),
                       Text(

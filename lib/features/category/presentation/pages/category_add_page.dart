@@ -42,7 +42,7 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
             children: [
               const CustomHeader(
                 title: "Category",
-                showBackButton: true,
+                showBackButton: false,
               ),
               const SizedBox(height: 20),
 

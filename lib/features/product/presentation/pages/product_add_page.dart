@@ -2,12 +2,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import '../../../category/presentation/providers/category_provider.dart';
+// Import Provider
 import '../providers/product_provider.dart';
+import 'package:gudangku/features/category/presentation/providers/providers.dart'; // [BARU] Import CategoryProvider
 
 // Import Shared Components
-import '../../../../core/widgets/custom_header.dart'; 
-import '../../../../core/widgets/custom_text_field.dart'; 
-import '../../../../core/widgets/custom_button.dart'; // [BARU]
+import '../../../../core/widgets/custom_header.dart';
+import '../../../../core/widgets/custom_text_field.dart';
+import '../../../../core/widgets/custom_button.dart';
 
 class ProductAddPage extends StatefulWidget {
   const ProductAddPage({super.key});
@@ -17,27 +20,34 @@ class ProductAddPage extends StatefulWidget {
 }
 
 class _ProductAddPageState extends State<ProductAddPage> {
-  // ... (Variable Controller & File tetap sama) ...
   File? _imageFile;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _stockController = TextEditingController();
-  final TextEditingController _categoryController = TextEditingController();
+  // final TextEditingController _categoryController = TextEditingController(); // [HAPUS INI]
   final TextEditingController _descController = TextEditingController();
+
+  String? _selectedCategory; // [BARU] Variable untuk nyimpan pilihan dropdown
+
+  @override
+  void initState() {
+    super.initState();
+    // [BARU] Ambil data kategori saat halaman dibuka
+    Future.microtask(() =>
+        Provider.of<CategoryProvider>(context, listen: false).fetchCategories());
+  }
 
   @override
   void dispose() {
-    // ... (Dispose tetap sama) ...
     _nameController.dispose();
     _priceController.dispose();
     _stockController.dispose();
-    _categoryController.dispose();
+    // _categoryController.dispose(); // [HAPUS]
     _descController.dispose();
     super.dispose();
   }
 
   Future<void> _pickImage() async {
-    // ... (Fungsi pickImage tetap sama) ...
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(
       source: ImageSource.gallery,
@@ -55,6 +65,8 @@ class _ProductAddPageState extends State<ProductAddPage> {
   @override
   Widget build(BuildContext context) {
     final isLoading = context.watch<ProductProvider>().isLoading;
+    // [BARU] Ambil list kategori dari provider
+    final categoryProvider = context.watch<CategoryProvider>();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -71,7 +83,7 @@ class _ProductAddPageState extends State<ProductAddPage> {
 
               const SizedBox(height: 20),
 
-              // 1. PREVIEW AREA (Tetap sama)
+              // 1. PREVIEW AREA
               Row(
                 children: [
                   GestureDetector(
@@ -86,10 +98,6 @@ class _ProductAddPageState extends State<ProductAddPage> {
                             ? DecorationImage(
                                 image: FileImage(_imageFile!),
                                 fit: BoxFit.cover,
-                                colorFilter: ColorFilter.mode(
-                                  Colors.black.withOpacity(0.4),
-                                  BlendMode.darken,
-                                ),
                               )
                             : null,
                       ),
@@ -118,18 +126,16 @@ class _ProductAddPageState extends State<ProductAddPage> {
               ),
               const SizedBox(height: 30),
 
-              // 2. FORM INPUT FIELDS (Tetap sama pakai CustomTextField)
+              // 2. FORM INPUT FIELDS
               CustomTextField(
                 label: "Nama Produk :",
                 hint: "Laptop",
                 controller: _nameController,
-                onChanged: (value) {
-                  setState(() {}); 
-                },
+                onChanged: (value) => setState(() {}),
               ),
               CustomTextField(
                 label: "Harga :",
-                hint: "1000999",
+                hint: "1000000",
                 controller: _priceController,
                 isNumber: true,
               ),
@@ -139,11 +145,44 @@ class _ProductAddPageState extends State<ProductAddPage> {
                 controller: _stockController,
                 isNumber: true,
               ),
-              CustomTextField(
-                label: "Kategori :",
-                hint: "",
-                controller: _categoryController,
+
+              // [UPDATE] KATEGORI DROPDOWN (Ganti CustomTextField Kategori)
+              const Padding(
+                padding: EdgeInsets.only(bottom: 8),
+                child: Text(
+                  "Kategori :",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
               ),
+              Container(
+                margin: const EdgeInsets.only(bottom: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                decoration: BoxDecoration(
+                  color: Colors.grey[100], // Samakan warna dengan CustomTextField
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    value: _selectedCategory,
+                    hint: const Text("Pilih Kategori", style: TextStyle(color: Colors.grey)),
+                    isExpanded: true,
+                    icon: const Icon(Icons.keyboard_arrow_down),
+                    items: categoryProvider.categories.map((category) {
+                      return DropdownMenuItem<String>(
+                        value: category.name, // Kita simpan Namanya
+                        child: Text(category.name),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedCategory = value;
+                      });
+                    },
+                  ),
+                ),
+              ),
+              // ---------------------------------------------------------
+
               CustomTextField(
                 label: "Deskripsi :",
                 hint: "Opsional",
@@ -153,23 +192,29 @@ class _ProductAddPageState extends State<ProductAddPage> {
 
               const SizedBox(height: 20),
 
-              // 3. TOMBOL SAVE (MENGGUNAKAN WIDGET CUSTOM BARU)
+              // 3. TOMBOL SAVE
               CustomButton(
                 text: "Save",
                 isLoading: isLoading,
                 onPressed: () async {
-                  // --- Logika Simpan (Copy paste dari yang lama) ---
                   if (_nameController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Nama produk tidak boleh kosong")));
                     return;
                   }
+                  
+                  // [BARU] Validasi Kategori
+                  if (_selectedCategory == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Silakan pilih kategori")));
+                    return;
+                  }
+
                   final productProvider = Provider.of<ProductProvider>(context, listen: false);
 
                   final success = await productProvider.addProduct(
                     _nameController.text,
                     _priceController.text,
                     _stockController.text,
-                    _categoryController.text,
+                    _selectedCategory!, // [UPDATE] Pakai nilai dropdown
                     _descController.text,
                     _imageFile,
                   );
@@ -180,7 +225,6 @@ class _ProductAddPageState extends State<ProductAddPage> {
                   } else if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(productProvider.errorMessage ?? "Gagal menyimpan")));
                   }
-                  // ------------------------------------------------
                 },
               ),
               

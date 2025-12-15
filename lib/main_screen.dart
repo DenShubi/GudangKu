@@ -3,6 +3,7 @@ import 'package:gudangku/features/supplier/presentation/pages/supplier_list_page
 import 'features/category/presentation/pages/category_list_page.dart';
 import 'core/widgets/custom_bottom_navbar.dart';
 import 'features/product/presentation/pages/product_list_page.dart'; 
+import 'features/auth/presentation/pages/setting_page.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -22,7 +23,7 @@ class _MainScreenState extends State<MainScreen> {
     const ProductListPage(),                          // Index 1 (Product)
     const SupplierListPage(),    // Index 2
     const CategoryListPage(),    // Index 3
-    const Center(child: Text("Halaman Setting")),     // Index 4
+    const SettingPage(),     // Index 4
   ];
   // -------------------------------------
 
