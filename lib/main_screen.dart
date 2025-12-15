@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gudangku/features/supplier/presentation/pages/supplier_list_page.dart';
 import 'core/widgets/custom_bottom_navbar.dart';
 // Pastikan import halaman Product ada.
 // Jika belum buat halaman lain, sementara pakai Text placeholder dulu tidak apa-apa.
@@ -20,7 +21,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _pages = [
     const Center(child: Text("Halaman Home")),        // Index 0
     const ProductListPage(),                          // Index 1 (Product)
-    const Center(child: Text("Halaman Supplier")),    // Index 2
+    const SupplierListPage(),    // Index 2
     const Center(child: Text("Halaman Category")),    // Index 3
     const Center(child: Text("Halaman Setting")),     // Index 4
   ];

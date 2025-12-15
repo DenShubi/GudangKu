@@ -1,40 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart'; // [WAJIB]
+
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/widgets/custom_header.dart';
 import '../widgets/supplier_card.dart';
+import 'supplier_detail_page.dart';
+import 'supplier_add_page.dart';
 
-// Nanti import SupplierAddPage jika sudah dibuat
-// import 'supplier_add_page.dart';
+// [PENTING] INI YANG HILANG TADI
+import '../providers/providers.dart';
 
-class SupplierListPage extends StatelessWidget {
+class SupplierListPage extends StatefulWidget {
   const SupplierListPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // Data Dummy (Pura-pura dari database)
-    final List<Map<String, String>> dummySuppliers = [
-      {
-        "name": "PT. Utilities",
-        "phone": "0812-2314-6767",
-        "address": "Jl. Bunga Merah No.172"
-      },
-      {
-        "name": "PT. Amogus",
-        "phone": "0812-2314-6767",
-        "address": "Jl. Bunga Merah No.172"
-      },
-      {
-        "name": "PT. Utilities Cabang 2",
-        "phone": "0812-2314-6767",
-        "address": "Jl. Bunga Merah No.172"
-      },
-       {
-        "name": "PT. Amogus Pusat",
-        "phone": "0812-2314-6767",
-        "address": "Jl. Bunga Merah No.172"
-      },
-    ];
+  State<SupplierListPage> createState() => _SupplierListPageState();
+}
 
+class _SupplierListPageState extends State<SupplierListPage> {
+  @override
+  void initState() {
+    super.initState();
+    // Fetch data saat halaman dibuka
+    Future.microtask(
+      () => Provider.of<SupplierProvider>(
+        context,
+        listen: false,
+      ).fetchSuppliers(),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -42,27 +39,54 @@ class SupplierListPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: Column(
             children: [
-              // 1. Header (Shared Component)
-              const CustomHeader(
-                title: "Supplier",
-                showBackButton: false, // Set true jika ingin tombol back
-              ),
+              const CustomHeader(title: "Supplier", showBackButton: false),
 
               const SizedBox(height: 20),
 
-              // 2. List Supplier
+              // Consumer SupplierProvider
               Expanded(
-                child: ListView.builder(
-                  itemCount: dummySuppliers.length,
-                  itemBuilder: (context, index) {
-                    final supplier = dummySuppliers[index];
-                    return SupplierCard(
-                      name: supplier['name']!,
-                      phone: supplier['phone']!,
-                      address: supplier['address']!,
-                      onTap: () {
-                        // Nanti navigasi ke Detail Supplier
-                        print("Klik ${supplier['name']}");
+                child: Consumer<SupplierProvider>(
+                  builder: (context, provider, child) {
+                    // 1. Loading
+                    if (provider.isLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    // 2. Error
+                    if (provider.errorMessage != null) {
+                      return Center(child: Text(provider.errorMessage!));
+                    }
+
+                    // 3. Kosong
+                    if (provider.suppliers.isEmpty) {
+                      return const Center(child: Text("Belum ada supplier."));
+                    }
+
+                    // 4. Ada Data
+                    return ListView.builder(
+                      itemCount: provider.suppliers.length,
+                      itemBuilder: (context, index) {
+                        final supplier = provider.suppliers[index];
+                        return SupplierCard(
+                          name: supplier.name,
+                          phone: supplier.phone,
+                          address: supplier.address,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SupplierDetailPage(
+                                  name: supplier.name,
+                                  address: supplier.address,
+                                  email: "-",
+                                  phone: supplier.phone,
+                                  contactPerson: supplier.contactPerson,
+                                  notes: supplier.notes,
+                                ),
+                              ),
+                            );
+                          },
+                        );
                       },
                     );
                   },
@@ -72,19 +96,21 @@ class SupplierListPage extends StatelessWidget {
           ),
         ),
       ),
-      
-      // 3. Floating Action Button (Tombol Tambah)
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 80, right: 10), // Padding agar tidak tertutup nav bar
+        padding: const EdgeInsets.only(bottom: 80, right: 10),
         child: SizedBox(
           width: 70,
           height: 70,
           child: FloatingActionButton(
             onPressed: () {
-              // Navigasi ke Halaman Tambah Supplier
-              // Navigator.push(context, MaterialPageRoute(builder: (context) => const SupplierAddPage()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SupplierAddPage(),
+                ),
+              );
             },
-            backgroundColor: AppColors.creamBackground, // Gunakan warna cream/kuning emas
+            backgroundColor: AppColors.creamBackground,
             shape: const CircleBorder(),
             elevation: 4,
             child: const Icon(Icons.add, color: Colors.white, size: 40),
