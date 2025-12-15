@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/constants/app_colors.dart';
 import '../../../../core/widgets/custom_header.dart';
-
-// [HAPUS IMPORT product_edit_page.dart]
 
 class ProductDetailPage extends StatelessWidget {
   final String id;

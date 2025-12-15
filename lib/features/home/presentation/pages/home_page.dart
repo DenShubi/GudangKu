@@ -44,7 +44,6 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 1. HEADER
               Row(
                 children: [
                   Container(
@@ -76,19 +75,15 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 30),
 
-              // 2. SUMMARY CARD (Updated Logic)
               Consumer<ProductProvider>(
                 builder: (context, provider, _) {
-                  // 1. Hitung Stok yang ada di Gudang (Realtime dari DB)
                   int currentStock = 0;
                   for (var product in provider.products) {
                     currentStock += product.stock; 
                   }
 
-                  // 2. Tentukan Stock Out (Statis)
                   int stockOut = 50;
 
-                  // 3. Hitung Total (Stock In) = Stok Gudang + Stok Keluar
                   int totalCalculated = currentStock + stockOut;
 
                   return Container(
@@ -112,17 +107,14 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            // Total (Hasil Penjumlahan)
                             _buildSummaryItem(totalCalculated.toString(), "Total"),
                             
                             Container(width: 1, height: 40, color: Colors.black54),
                             
-                            // Stock In (Sama dengan Total karena asumsi In = Current + Out)
                             _buildSummaryItem(totalCalculated.toString(), "Stock In"),
                             
                             Container(width: 1, height: 40, color: Colors.black54),
                             
-                            // Stock Out (Statis 50)
                             _buildSummaryItem(stockOut.toString(), "Stock Out"),
                           ],
                         ),
@@ -133,14 +125,12 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 30),
 
-              // 3. ITEMS HEADER
               const Text(
                 "Items",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 15),
 
-              // 4. ITEMS LIST
               Consumer<ProductProvider>(
                 builder: (context, provider, child) {
                   if (provider.isLoading) {

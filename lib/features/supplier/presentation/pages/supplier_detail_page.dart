@@ -33,31 +33,26 @@ class SupplierDetailPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 1. Header (Shared Component)
               const CustomHeader(
                 title: "Supplier",
                 showBackButton: false,
               ),
-              
               const SizedBox(height: 20),
-
-              // 2. Inisial & Nama PT
               Row(
-                crossAxisAlignment: CrossAxisAlignment.center, // Center vertikal biar rapi
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Kotak Inisial Besar
                   Container(
                     width: 100,
                     height: 100,
                     decoration: BoxDecoration(
-                      color: Colors.grey[300], // Samakan warna background dengan Product
-                      borderRadius: BorderRadius.circular(20), // Agak rounded
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(20),
                     ),
                     child: Center(
                       child: Text(
                         initial,
                         style: const TextStyle(
-                          fontSize: 48, // Ukuran huruf besar
+                          fontSize: 48,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
@@ -66,13 +61,11 @@ class SupplierDetailPage extends StatelessWidget {
                   ),
                   
                   const SizedBox(width: 20),
-                  
-                  // Nama PT
                   Expanded(
                     child: Text(
                       name,
                       style: const TextStyle(
-                        fontSize: 34, // Samakan ukuran font judul Product
+                        fontSize: 34,
                         fontWeight: FontWeight.bold,
                         height: 1.2,
                       ),
@@ -89,15 +82,11 @@ class SupplierDetailPage extends StatelessWidget {
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 20),
-              
               _buildDetailRow("Alamat", address), 
               _buildDetailRow("Email", email),
               _buildDetailRow("No Telp", phone),
               _buildDetailRow("Nama CP", contactPerson),
-              
               const SizedBox(height: 20),
-
-              // 4. Note (Mirip bagian "Deskripsi" di Product)
               const Text(
                 "Note:", 
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
@@ -118,19 +107,15 @@ class SupplierDetailPage extends StatelessWidget {
           ),
         ),
       ),
-      
-      // 5. Floating Action Button (Edit)
       floatingActionButton: SizedBox(
         width: 70,
         height: 70,
         child: FloatingActionButton(
-          onPressed: () {
-            // Nanti ke halaman Edit Supplier
-          },
+          onPressed: () {},
           backgroundColor: AppColors.creamBackground,
           shape: const CircleBorder(),
           elevation: 0,
-          child: const Icon(Icons.add, color: Colors.white, size: 40), // Icon Plus (+) sesuai gambar
+          child: const Icon(Icons.add, color: Colors.white, size: 40),
         ),
       ),
     );

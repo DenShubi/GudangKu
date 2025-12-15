@@ -32,7 +32,6 @@ class _ProductAddPageState extends State<ProductAddPage> {
   @override
   void initState() {
     super.initState();
-    // [BARU] Ambil data kategori saat halaman dibuka
     Future.microtask(() =>
         Provider.of<CategoryProvider>(context, listen: false).fetchCategories());
   }

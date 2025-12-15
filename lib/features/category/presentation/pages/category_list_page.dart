@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart'; // [WAJIB IMPORT]
-
+import 'package:provider/provider.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/widgets/custom_header.dart';
 import '../widgets/category_card.dart';
 import 'category_add_page.dart';
 import 'category_detail_page.dart';
-import '../providers/providers.dart'; // [WAJIB IMPORT]
+import '../providers/providers.dart';
 
 class CategoryListPage extends StatefulWidget {
   const CategoryListPage({super.key});
@@ -39,8 +38,6 @@ class _CategoryListPageState extends State<CategoryListPage> {
                 showBackButton: false,
               ),
               const SizedBox(height: 30),
-
-              // [UPDATE] Gunakan Consumer
               Expanded(
                 child: Consumer<CategoryProvider>(
                   builder: (context, provider, child) {

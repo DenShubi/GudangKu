@@ -1,4 +1,4 @@
-import 'dart:io'; // [WAJIB]
+import 'dart:io';
 import 'package:flutter/material.dart';
 import '../../data/models/supplier_model.dart';
 import '../../data/repositories/supplier_repository.dart';
@@ -8,17 +8,13 @@ class SupplierProvider extends ChangeNotifier {
 
   SupplierProvider(this._repository);
 
-  // State Variables
   List<SupplierModel> _suppliers = [];
   bool _isLoading = false;
   String? _errorMessage;
-
-  // Getters
   List<SupplierModel> get suppliers => _suppliers;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
 
-  // 1. Fetch Data
   Future<void> fetchSuppliers() async {
     _isLoading = true;
     _errorMessage = null;
@@ -34,14 +30,13 @@ class SupplierProvider extends ChangeNotifier {
     }
   }
 
-  // 2. Add Data
   Future<bool> addSupplier(
     String name,
     String contactPerson,
     String phone,
     String address,
     String notes, {
-    File? imageFile, // [PERBAIKAN] Tambahkan kurung kurawal {} di sini agar menjadi Named Parameter
+    File? imageFile,
   }) async {
     _isLoading = true;
     _errorMessage = null;

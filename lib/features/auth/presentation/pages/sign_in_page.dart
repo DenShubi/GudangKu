@@ -55,7 +55,6 @@ class _SignInPageState extends State<SignInPage> {
               ),
               const SizedBox(height: 30),
 
-              // 2. TOGGLE BUTTON (TAMPILAN TETAP DIPERTAHANKAN)
               Container(
                 height: 50,
                 decoration: BoxDecoration(
@@ -97,7 +96,6 @@ class _SignInPageState extends State<SignInPage> {
               ),
               const SizedBox(height: 30),
 
-              // 3. FORM INPUT (MENGGUNAKAN CUSTOM TEXT FIELD)
               
               // Input Nama (Hanya muncul jika Sign Up)
               if (!_isSignIn)
@@ -125,7 +123,6 @@ class _SignInPageState extends State<SignInPage> {
 
               const SizedBox(height: 30),
 
-              // 4. TOMBOL ACTION (MENGGUNAKAN CUSTOM BUTTON)
               CustomButton(
                 text: _isSignIn ? "Sign In" : "Sign Up",
                 isLoading: isLoading,

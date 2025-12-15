@@ -1,12 +1,10 @@
-import 'dart:io'; // [WAJIB] For File
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart'; // [WAJIB]
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../core/widgets/custom_header.dart';
 import '../../../../core/widgets/custom_text_field.dart';
 import '../../../../core/widgets/custom_button.dart';
-// Ensure this import points to where your SupplierProvider is exported
 import '../providers/supplier_provider.dart'; 
 
 class SupplierAddPage extends StatefulWidget {
@@ -23,7 +21,7 @@ class _SupplierAddPageState extends State<SupplierAddPage> {
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
 
-  File? _imageFile; // Variable to store the selected image
+  File? _imageFile;
   bool _isLoading = false;
 
   @override

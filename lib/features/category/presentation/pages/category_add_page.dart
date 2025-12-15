@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart'; // [WAJIB IMPORT]
-
+import 'package:provider/provider.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../../core/widgets/custom_header.dart';
 import '../../../../core/widgets/custom_text_field.dart';
-import '../providers/providers.dart'; // [WAJIB IMPORT]
+import '../providers/providers.dart';
 
 class CategoryAddPage extends StatefulWidget {
   const CategoryAddPage({super.key});
@@ -18,7 +17,7 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
   bool _isActive = true;
-  bool _isLoading = false; // Local loading state
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -29,7 +28,6 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Warna default (Merah Muda)
     final previewColor = const Color(0xFFF4A4A4);
 
     return Scaffold(
@@ -45,8 +43,6 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
                 showBackButton: false,
               ),
               const SizedBox(height: 20),
-
-              // Preview Box
               Container(
                 width: double.infinity,
                 height: 180,

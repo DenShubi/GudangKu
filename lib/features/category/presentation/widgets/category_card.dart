@@ -16,38 +16,32 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      // 1. Container Induk sebagai "Kartu"
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white, // Warna dasar kartu (untuk area teks)
-          borderRadius: BorderRadius.circular(16), // Sudut melengkung untuk seluruh kartu
-          // Shadow diletakkan di container induk ini
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1), // Bayangan sedikit lebih halus
+              color: Colors.black.withOpacity(0.1),
               blurRadius: 10,
               offset: const Offset(0, 5),
               spreadRadius: 2,
             ),
           ],
         ),
-        // ClipRRect memastikan anak widget tidak keluar dari sudut melengkung kartu
         child: ClipRRect(
            borderRadius: BorderRadius.circular(16),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch, // Agar melebar penuh
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // 2. Bagian Atas (Kotak Berwarna)
               Expanded(
-                flex: 3, // Memberi porsi lebih besar untuk kotak warna
+                flex: 3,
                 child: Container(
-                  color: color, // Hanya warna, tidak perlu border radius lagi (sudah di-clip)
+                  color: color,
                 ),
               ),
-              
-              // 3. Bagian Bawah (Teks Judul)
               Expanded(
-                 flex: 2, // Memberi porsi untuk area teks
+                 flex: 2,
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
                   alignment: Alignment.center, // Memastikan teks di tengah secara vertikal & horizontal

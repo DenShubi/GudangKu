@@ -6,7 +6,6 @@ class CategoryRepository {
 
   CategoryRepository(this._supabase);
 
-  // 1. Ambil Semua Kategori
   Future<List<CategoryModel>> getCategories() async {
     try {
       final response = await _supabase
@@ -21,7 +20,6 @@ class CategoryRepository {
     }
   }
 
-  // 2. Tambah Kategori Baru
   Future<void> addCategory({
     required String name,
     required String description,

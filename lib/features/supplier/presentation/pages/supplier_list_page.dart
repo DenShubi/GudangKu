@@ -6,7 +6,7 @@ import '../../../../core/widgets/custom_header.dart';
 import '../widgets/supplier_card.dart';
 import 'supplier_detail_page.dart';
 import 'supplier_add_page.dart';
-import '../providers/supplier_provider.dart'; // Sesuaikan path provider Anda
+import '../providers/supplier_provider.dart';
 
 class SupplierListPage extends StatefulWidget {
   const SupplierListPage({super.key});
@@ -19,7 +19,6 @@ class _SupplierListPageState extends State<SupplierListPage> {
   @override
   void initState() {
     super.initState();
-    // Fetch data saat halaman dibuka
     Future.microtask(
       () => Provider.of<SupplierProvider>(
         context,
@@ -45,33 +44,23 @@ class _SupplierListPageState extends State<SupplierListPage> {
               Expanded(
                 child: Consumer<SupplierProvider>(
                   builder: (context, provider, child) {
-                    // 1. Loading
                     if (provider.isLoading) {
                       return const Center(child: CircularProgressIndicator());
                     }
-
-                    // 2. Error
                     if (provider.errorMessage != null) {
                       return Center(child: Text(provider.errorMessage!));
                     }
-
-                    // 3. Kosong
                     if (provider.suppliers.isEmpty) {
                       return const Center(child: Text("Belum ada supplier."));
                     }
-
-                    // 4. Ada Data
                     return ListView.builder(
                       itemCount: provider.suppliers.length,
                       itemBuilder: (context, index) {
                         final supplier = provider.suppliers[index];
-                        
                         return SupplierCard(
                           name: supplier.name,
                           phone: supplier.phone,
                           address: supplier.address,
-                          
-                          // [BARU] Kirim URL gambar ke Card agar tampil
                           imageUrl: supplier.imageUrl, 
                           
                           onTap: () {

@@ -1,4 +1,4 @@
-import 'dart:io'; // [WAJIB] Untuk tipe data File
+import 'dart:io';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/supplier_model.dart';
 
@@ -7,7 +7,6 @@ class SupplierRepository {
 
   SupplierRepository(this._supabase);
 
-  // 1. Ambil Data Supplier
   Future<List<SupplierModel>> getSuppliers() async {
     try {
       final response = await _supabase

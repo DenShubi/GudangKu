@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-// Import Shared Widgets
 import '../../../../core/widgets/custom_header.dart';
-
-// Import Product Feature (Provider, Card, & Detail Page)
 import '../../../product/presentation/providers/product_provider.dart';
 import '../../../product/presentation/widgets/product_card.dart';
 import '../../../product/presentation/pages/product_detail_page.dart';
@@ -31,8 +27,6 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
   @override
   void initState() {
     super.initState();
-    // Memastikan data produk terbaru diambil saat halaman ini dibuka
-    // (Opsional, jika data sudah ada di main screen, ini bisa dihapus)
     Future.microtask(() =>
         Provider.of<ProductProvider>(context, listen: false).fetchProducts());
   }
@@ -46,7 +40,6 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: Column(
             children: [
-              // 1. Header Aplikasi
               const CustomHeader(
                 title: "Category",
                 showBackButton: true,

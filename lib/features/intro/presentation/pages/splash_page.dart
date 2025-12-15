@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_colors.dart';
-import '../../../../main_screen.dart'; // Import halaman utama (Navigation Bar) nanti
+import '../../../../main_screen.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -15,9 +15,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    // Logika Timer: Pindah halaman setelah 3 detik
     Timer(const Duration(seconds: 3), () {
-      // Menggunakan pushReplacement agar user tidak bisa kembali ke splash screen
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const MainScreen()),
@@ -28,7 +26,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.creamBackground, // Warna dari core
+      backgroundColor: AppColors.creamBackground,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -36,7 +34,7 @@ class _SplashPageState extends State<SplashPage> {
             // Gambar Kardus
             Image.asset(
               'assets/images/logo_box.png',
-              width: 150, // Sesuaikan ukuran
+              width: 150,
               height: 150,
             ),
             const SizedBox(height: 20),
