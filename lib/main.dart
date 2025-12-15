@@ -20,6 +20,9 @@ import 'features/product/presentation/providers/product_provider.dart';
 import 'features/supplier/data/repositories/supplier_repository.dart';
 import 'features/supplier/presentation/providers/providers.dart';
 
+import 'features/category/data/repositories/category_repository.dart';
+import 'features/category/presentation/providers/providers.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -61,7 +64,14 @@ class MyApp extends StatelessWidget {
           create: (_) =>
               SupplierProvider(SupplierRepository(Supabase.instance.client)),
         ),
+
+        ChangeNotifierProvider(
+          create: (_) => CategoryProvider(
+            CategoryRepository(Supabase.instance.client),
+          ),
+        ),
       ],
+
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'GudangKu',
