@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../../core/constants/app_colors.dart';
+
 
 class CustomBottomNavBar extends StatelessWidget {
   final int selectedIndex;
@@ -15,57 +17,115 @@ class CustomBottomNavBar extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(
         top: 22,
-        left: 20, // Kiri agak lebar
-        right: 20, // Kanan agak lebar
-        bottom: 28, // Bawah diangkat
+        left: 20,
+        right: 20,
+        bottom: 28,
       ),
-      // PENTING: Decoration jangan dikomentari agar ada bayangan & transparan
       decoration: const BoxDecoration(
-        color: Colors.transparent, // Area padding jadi transparan
+        color: Colors.transparent,
         boxShadow: [
           BoxShadow(
             color: Colors.black12,
-            blurRadius: 10,
+            blurRadius: 50,
             spreadRadius: 1,
             offset: Offset(0, 5),
           ),
         ],
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(30), // Membuat bentuk kapsul
+        borderRadius: BorderRadius.circular(15),
         child: BottomNavigationBar(
           currentIndex: selectedIndex,
           onTap: onTap,
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.white, // Warna dalam kapsul tetap putih
-          selectedItemColor: Colors.black,
-          unselectedItemColor: Colors.grey,
+          backgroundColor: Colors.white,
+          selectedItemColor: AppColors.accentYellow,
+          unselectedItemColor: Colors.black,
           showSelectedLabels: true,
           showUnselectedLabels: true,
-          items: const [
+          items: [
+            // 1. HOME
             BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
-              activeIcon: Icon(Icons.home),
+              icon: Image.asset(
+                'assets/images/Home_Icon.png', 
+                width: 24,
+                height: 24,
+                color: Colors.black, 
+              ),
+              activeIcon: Image.asset(
+                'assets/images/Home_Icon.png',
+                width: 24,
+                height: 24,
+                color: AppColors.accentYellow, 
+              ),
               label: 'Home',
             ),
+
+            // 2. PRODUCT
             BottomNavigationBarItem(
-              icon: Icon(Icons.inventory_2_outlined),
-              activeIcon: Icon(Icons.inventory_2),
+              icon: Image.asset(
+                'assets/images/Product_Icon.png', 
+                width: 24,
+                height: 24,
+                color: Colors.black, 
+              ),
+              activeIcon: Image.asset(
+                'assets/images/Product_Icon.png',
+                width: 24,
+                height: 24,
+                color: AppColors.accentYellow, 
+              ),
               label: 'Product',
             ),
+
+            // 3. SUPPLIER
             BottomNavigationBarItem(
-              icon: Icon(Icons.factory_outlined),
-              activeIcon: Icon(Icons.factory),
+              icon: Image.asset(
+                'assets/images/Supplier_Icon.png', 
+                width: 24,
+                height: 24,
+                color: Colors.black, 
+              ),
+              activeIcon: Image.asset(
+                'assets/images/Supplier_Icon.png',
+                width: 24,
+                height: 24,
+                color: AppColors.accentYellow, 
+              ),
               label: 'Supplier',
             ),
+
+            // 4. CATEGORY
             BottomNavigationBarItem(
-              icon: Icon(Icons.grid_view),
-              activeIcon: Icon(Icons.grid_view_rounded),
+              icon: Image.asset(
+                'assets/images/Category_Icon.png', 
+                width: 24,
+                height: 24,
+                color: Colors.black, 
+              ),
+              activeIcon: Image.asset(
+                'assets/images/Category_Icon.png',
+                width: 24,
+                height: 24,
+                color: AppColors.accentYellow, 
+              ),
               label: 'Category',
             ),
+
+            // 5. SETTING
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings_outlined),
-              activeIcon: Icon(Icons.settings),
+              icon: Image.asset(
+                'assets/images/Setting_Icon.png', 
+                width: 24,
+                height: 24,
+                color: Colors.black, 
+              ),
+              activeIcon: Image.asset(
+                'assets/images/Setting_Icon.png',
+                width: 24,
+                height: 24,
+                color: AppColors.accentYellow, 
+              ),
               label: 'Setting',
             ),
           ],

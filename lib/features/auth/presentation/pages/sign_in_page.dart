@@ -4,6 +4,10 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../main_screen.dart';
 import '../providers/auth_provider.dart';
 
+// [PENTING] Import Shared Components
+import '../../../../core/widgets/custom_text_field.dart';
+import '../../../../core/widgets/custom_button.dart';
+
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
 
@@ -14,13 +18,22 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   bool _isSignIn = true; // True = Sign In, False = Sign Up
 
-  // Tambahkan Controller untuk Nama
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final isLoading = context.watch<AuthProvider>().isLoading;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -29,18 +42,20 @@ class _SignInPageState extends State<SignInPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 120),
+              const SizedBox(height: 80),
+              
               // 1. Logo
               Center(
                 child: Image.asset(
                   'assets/images/logo_box.png',
-                  width: 47,
-                  height: 54,
+                  width: 50,
+                  height: 60,
+                  fit: BoxFit.contain,
                 ),
               ),
               const SizedBox(height: 30),
 
-              // 2. Toggle Button
+              // 2. TOGGLE BUTTON (TAMPILAN TETAP DIPERTAHANKAN)
               Container(
                 height: 50,
                 decoration: BoxDecoration(
@@ -59,7 +74,7 @@ class _SignInPageState extends State<SignInPage> {
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: _isSignIn ? [const BoxShadow(color: Colors.black12, blurRadius: 4)] : [],
                           ),
-                          child: const Text("Sign In", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                          child: const Text("Sign In", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                         ),
                       ),
                     ),
@@ -73,7 +88,7 @@ class _SignInPageState extends State<SignInPage> {
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: !_isSignIn ? [const BoxShadow(color: Colors.black12, blurRadius: 4)] : [],
                           ),
-                          child: const Text("Sign Up", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                          child: const Text("Sign Up", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                         ),
                       ),
                     ),
@@ -82,118 +97,69 @@ class _SignInPageState extends State<SignInPage> {
               ),
               const SizedBox(height: 30),
 
-              // 3. LOGIC UTAMA: Input Nama (Hanya muncul jika _isSignIn == false)
-              if (!_isSignIn) ...[
-                const Text(
-                  "Nama",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-                ),
-                const SizedBox(height: 15),
-                TextFormField(
+              // 3. FORM INPUT (MENGGUNAKAN CUSTOM TEXT FIELD)
+              
+              // Input Nama (Hanya muncul jika Sign Up)
+              if (!_isSignIn)
+                CustomTextField(
+                  label: "Nama",
+                  hint: "Nama Lengkap",
                   controller: _nameController,
-                  decoration: InputDecoration(
-                    hintText: "Nama",
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: Colors.black, width: 1.5),
-                    ),
-                  ),
                 ),
-                const SizedBox(height: 15),
-              ],
 
-              // 4. Input Email
-              const Text(
-                "Email",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-              ),
-              const SizedBox(height: 15),
-              TextFormField(
+              // Input Email
+              CustomTextField(
+                label: "Email",
+                hint: "Contoh: user@email.com",
                 controller: _emailController,
-                decoration: InputDecoration(
-                  hintText: "Email",
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Colors.black, width: 1.5),
-                  ),
-                ),
+                keyboardType: TextInputType.emailAddress,
               ),
-              const SizedBox(height: 15),
 
-              // 5. Input Password
-              const Text(
-                "Password",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-              ),
-              const SizedBox(height: 15),
-              TextFormField(
+              // Input Password (Pakai CustomTextField dengan obscureText)
+              CustomTextField(
+                label: "Password",
+                hint: "********",
                 controller: _passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: "Password",
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Colors.black, width: 1.5),
-                  ),
-                ),
+                obscureText: true, // Fitur rahasia aktif
               ),
-              const SizedBox(height: 50),
 
-              // 6. Button Save
-              SizedBox(
-                width: double.infinity,
-                height: 70,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    // Validasi Dasar
-                    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Email & Password wajib diisi")));
-                      return;
-                    }
-                    // Validasi Nama jika sedang Sign Up
-                    if (!_isSignIn && _nameController.text.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Nama wajib diisi")));
-                      return;
-                    }
+              const SizedBox(height: 30),
 
-                    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+              // 4. TOMBOL ACTION (MENGGUNAKAN CUSTOM BUTTON)
+              CustomButton(
+                text: _isSignIn ? "Sign In" : "Sign Up",
+                isLoading: isLoading,
+                onPressed: () async {
+                  // Validasi
+                  if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Email & Password wajib diisi")));
+                    return;
+                  }
+                  if (!_isSignIn && _nameController.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Nama wajib diisi")));
+                    return;
+                  }
 
-                    bool success = await authProvider.authenticate(
-                      _emailController.text,
-                      _passwordController.text,
-                      _nameController.text, // Kirim Nama
-                      _isSignIn,
+                  final authProvider = Provider.of<AuthProvider>(context, listen: false);
+
+                  bool success = await authProvider.authenticate(
+                    _emailController.text,
+                    _passwordController.text,
+                    _nameController.text,
+                    _isSignIn,
+                  );
+
+                  if (success && context.mounted) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MainScreen()),
                     );
-
-                    if (success && context.mounted) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => const MainScreen()),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(authProvider.errorMessage ?? "Gagal")),
-                      );
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryGreen,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    elevation: 0,
-                  ),
-                  child: context.watch<AuthProvider>().isLoading
-                      ? const CircularProgressIndicator(color: Colors.black)
-                      : const Text(
-                          "Save",
-                          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 22),
-                        ),
-                ),
+                  } else if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(authProvider.errorMessage ?? "Gagal")),
+                    );
+                  }
+                },
               ),
             ],
           ),
