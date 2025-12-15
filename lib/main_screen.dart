@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gudangku/features/supplier/presentation/pages/supplier_list_page.dart';
+import 'features/category/presentation/pages/category_list_page.dart';
 import 'core/widgets/custom_bottom_navbar.dart';
-// Pastikan import halaman Product ada.
-// Jika belum buat halaman lain, sementara pakai Text placeholder dulu tidak apa-apa.
 import 'features/product/presentation/pages/product_list_page.dart'; 
 
 class MainScreen extends StatefulWidget {
@@ -22,7 +21,7 @@ class _MainScreenState extends State<MainScreen> {
     const Center(child: Text("Halaman Home")),        // Index 0
     const ProductListPage(),                          // Index 1 (Product)
     const SupplierListPage(),    // Index 2
-    const Center(child: Text("Halaman Category")),    // Index 3
+    const CategoryListPage(),    // Index 3
     const Center(child: Text("Halaman Setting")),     // Index 4
   ];
   // -------------------------------------
