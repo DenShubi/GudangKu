@@ -15,6 +15,7 @@ class CustomBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 120,
       padding: const EdgeInsets.only(
         top: 22,
         left: 20,

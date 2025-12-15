@@ -1,12 +1,13 @@
+import 'dart:io'; // [WAJIB] For File
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart'; // [WAJIB]
+import 'package:image_picker/image_picker.dart'; // [WAJIB]
+import 'package:provider/provider.dart';
 
 import '../../../../core/widgets/custom_header.dart';
 import '../../../../core/widgets/custom_text_field.dart';
 import '../../../../core/widgets/custom_button.dart';
-import '../providers/providers.dart';
-
-// [PENTING] INI YANG HILANG TADI
+// Ensure this import points to where your SupplierProvider is exported
+import '../providers/supplier_provider.dart'; 
 
 class SupplierAddPage extends StatefulWidget {
   const SupplierAddPage({super.key});
@@ -22,6 +23,7 @@ class _SupplierAddPageState extends State<SupplierAddPage> {
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
 
+  File? _imageFile; // Variable to store the selected image
   bool _isLoading = false;
 
   @override
@@ -40,6 +42,23 @@ class _SupplierAddPageState extends State<SupplierAddPage> {
     _addressController.dispose();
     _noteController.dispose();
     super.dispose();
+  }
+
+  // Function to pick image from gallery
+  Future<void> _pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 50, // Compress image quality
+      maxWidth: 800,   // Limit width
+      maxHeight: 800,  // Limit height
+    );
+
+    if (image != null) {
+      setState(() {
+        _imageFile = File(image.path);
+      });
+    }
   }
 
   @override
@@ -64,36 +83,57 @@ class _SupplierAddPageState extends State<SupplierAddPage> {
               // Preview Area
               Row(
                 children: [
-                  Container(
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Center(
-                      child: Text(
-                        initial,
-                        style: const TextStyle(
-                          fontSize: 48,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
+                  GestureDetector(
+                    onTap: _pickImage, // Allow tapping to pick image
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(16),
+                        image: _imageFile != null
+                            ? DecorationImage(
+                                image: FileImage(_imageFile!),
+                                fit: BoxFit.cover,
+                              )
+                            : null,
                       ),
+                      child: _imageFile != null
+                          ? null
+                          : Center(
+                              child: Text(
+                                initial,
+                                style: const TextStyle(
+                                  fontSize: 48,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
                     ),
                   ),
                   const SizedBox(width: 20),
                   Expanded(
-                    child: Text(
-                      _nameController.text.isEmpty
-                          ? "PT. Preview"
-                          : "PT. ${_nameController.text}",
-                      style: const TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _nameController.text.isEmpty
+                              ? "PT. Preview"
+                              : "PT. ${_nameController.text}",
+                          style: const TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          "Tap gambar untuk mengubah",
+                          style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -138,7 +178,7 @@ class _SupplierAddPageState extends State<SupplierAddPage> {
 
               const SizedBox(height: 20),
 
-              // Tombol Save
+              // Save Button
               CustomButton(
                 text: "Save",
                 isLoading: _isLoading,
@@ -152,7 +192,6 @@ class _SupplierAddPageState extends State<SupplierAddPage> {
 
                   setState(() => _isLoading = true);
 
-                  // Panggil Provider (Sekarang sudah dikenali karena import ada)
                   final success =
                       await Provider.of<SupplierProvider>(
                         context,
@@ -163,6 +202,7 @@ class _SupplierAddPageState extends State<SupplierAddPage> {
                         _phoneController.text,
                         _addressController.text,
                         _noteController.text,
+                        imageFile: _imageFile, // Sending the image file
                       );
 
                   if (context.mounted) {

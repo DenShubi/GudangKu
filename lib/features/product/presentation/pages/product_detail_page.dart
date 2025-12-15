@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/widgets/custom_header.dart';
 
+// [HAPUS IMPORT product_edit_page.dart]
+
 class ProductDetailPage extends StatelessWidget {
-  final String id; // [BARU] Tambahkan variabel ID
+  final String id;
   final String name;
   final String price;
   final String stock;
@@ -13,7 +15,7 @@ class ProductDetailPage extends StatelessWidget {
 
   const ProductDetailPage({
     super.key,
-    required this.id, // [BARU] Wajib diisi
+    required this.id,
     required this.name,
     required this.price,
     required this.stock,
@@ -32,15 +34,13 @@ class ProductDetailPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header
               const CustomHeader(
                 title: "Products",
-                showBackButton: false, // Aktifkan tombol back
+                showBackButton: true,
               ),
               
               const SizedBox(height: 20),
 
-              // Gambar & Judul
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -76,7 +76,6 @@ class ProductDetailPage extends StatelessWidget {
               ),
               const SizedBox(height: 30),
 
-              // --- BAGIAN DETAIL (UPDATE DI SINI) ---
               const Text("Detail :", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
               const SizedBox(height: 20),
               
@@ -84,8 +83,6 @@ class ProductDetailPage extends StatelessWidget {
               _buildDetailRow("Harga", price),    
               _buildDetailRow("Stok", stock),
               _buildDetailRow("Kategori", category),
-              
-              // --------------------------------------
 
               const SizedBox(height: 20),
               const Text("Deskripsi", style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal)),
@@ -100,17 +97,7 @@ class ProductDetailPage extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: SizedBox(
-        width: 70,
-        height: 70,
-        child: FloatingActionButton(
-          onPressed: () {},
-          backgroundColor: AppColors.creamBackground,
-          shape: const CircleBorder(),
-          elevation: 0,
-          child: const Icon(Icons.edit, color: Colors.white, size: 30),
-        ),
-      ),
+      // [FLOATING ACTION BUTTON DIHAPUS DARI SINI]
     );
   }
 
@@ -121,13 +108,12 @@ class ProductDetailPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(label, style: const TextStyle(fontSize: 20, color: Colors.black)),
-          // Menggunakan Expanded pada value agar jika ID kepanjangan tidak error layout
           Expanded(
             child: Text(
               value, 
               style: const TextStyle(fontSize: 20, color: Colors.black),
               textAlign: TextAlign.right,
-              overflow: TextOverflow.ellipsis, // Potong jika kepanjangan
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],

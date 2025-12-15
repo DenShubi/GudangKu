@@ -4,6 +4,7 @@ class SupplierCard extends StatelessWidget {
   final String name;
   final String phone;
   final String address;
+  final String? imageUrl;
   final VoidCallback onTap;
 
   const SupplierCard({
@@ -11,91 +12,96 @@ class SupplierCard extends StatelessWidget {
     required this.name,
     required this.phone,
     required this.address,
+    this.imageUrl,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    // Ambil huruf pertama untuk inisial
-    final String initial = name.isNotEmpty ? name[0].toUpperCase() : '?';
+    // Ambil inisial untuk fallback jika gambar kosong
+    String initial = "?";
+    if (name.isNotEmpty) {
+      initial = name[0].toUpperCase();
+    }
 
     return GestureDetector(
       onTap: onTap,
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.grey.withOpacity(0.1),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
           ],
         ),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 1. Kotak Inisial (Kiri)
+            // --- BAGIAN GAMBAR / INISIAL ---
             Container(
               width: 60,
               height: 60,
               decoration: BoxDecoration(
-                color: Colors.grey[200], // Warna abu-abu muda
+                color: Colors.grey[200],
                 borderRadius: BorderRadius.circular(12),
+                image: (imageUrl != null && imageUrl!.isNotEmpty)
+                    ? DecorationImage(
+                        image: NetworkImage(imageUrl!),
+                        fit: BoxFit.cover,
+                      )
+                    : null,
               ),
-              child: Center(
-                child: Text(
-                  initial,
-                  style: const TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
+              child: (imageUrl != null && imageUrl!.isNotEmpty)
+                  ? null
+                  : Center(
+                      child: Text(
+                        initial,
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black54,
+                        ),
+                      ),
+                    ),
             ),
+            // -------------------------------
             
             const SizedBox(width: 16),
-
-            // 2. Detail Supplier (Kanan)
+            
+            // Informasi Text (Tanpa Icon)
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Nama PT
                   Text(
                     name,
                     style: const TextStyle(
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
                   
-                  // Nomor Telepon (Warna abu-abu)
+                  // Phone Text Only
                   Text(
                     phone,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    ),
+                    style: const TextStyle(fontSize: 12, color: Colors.grey),
                   ),
-                  const SizedBox(height: 4),
-
-                  // Alamat
+                  
+                  const SizedBox(height: 2),
+                  
+                  // Address Text Only
                   Text(
                     address,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.black87,
-                    ),
-                    maxLines: 2,
+                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],

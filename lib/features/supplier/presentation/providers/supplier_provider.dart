@@ -1,3 +1,4 @@
+import 'dart:io'; // [WAJIB]
 import 'package:flutter/material.dart';
 import '../../data/models/supplier_model.dart';
 import '../../data/repositories/supplier_repository.dart';
@@ -39,8 +40,9 @@ class SupplierProvider extends ChangeNotifier {
     String contactPerson,
     String phone,
     String address,
-    String notes,
-  ) async {
+    String notes, {
+    File? imageFile, // [PERBAIKAN] Tambahkan kurung kurawal {} di sini agar menjadi Named Parameter
+  }) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
@@ -52,6 +54,7 @@ class SupplierProvider extends ChangeNotifier {
         phone: phone,
         address: address,
         notes: notes,
+        imageFile: imageFile, // Teruskan ke Repository
       );
       
       // Refresh list setelah berhasil tambah

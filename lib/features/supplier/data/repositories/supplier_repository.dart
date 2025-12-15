@@ -1,3 +1,4 @@
+import 'dart:io'; // [WAJIB] Untuk tipe data File
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/supplier_model.dart';
 
@@ -6,7 +7,7 @@ class SupplierRepository {
 
   SupplierRepository(this._supabase);
 
-  // Ambil Data
+  // 1. Ambil Data Supplier
   Future<List<SupplierModel>> getSuppliers() async {
     try {
       final response = await _supabase
@@ -14,6 +15,7 @@ class SupplierRepository {
           .select()
           .order('created_at', ascending: false);
 
+      // Konversi data JSON ke List<SupplierModel>
       final List<dynamic> data = response as List<dynamic>;
       return data.map((e) => SupplierModel.fromJson(e)).toList();
     } catch (e) {
@@ -21,22 +23,45 @@ class SupplierRepository {
     }
   }
 
-  // Tambah Data
+  // 2. Tambah Data Supplier (Dengan Gambar)
+  // ... import dan kode lainnya ...
+
+  // 2. Tambah Data Supplier (Dengan Gambar)
   Future<void> addSupplier({
     required String name,
     required String contactPerson,
     required String phone,
     required String address,
     required String notes,
+    File? imageFile, 
   }) async {
     try {
+      String? imageUrl;
+
+      if (imageFile != null) {
+        final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+        await _supabase.storage.from('suppliers').upload(
+              fileName,
+              imageFile,
+              fileOptions: const FileOptions(contentType: 'image/jpeg'),
+            );
+        imageUrl = _supabase.storage.from('suppliers').getPublicUrl(fileName);
+      }
+
+      // --- PERBAIKAN DI SINI ---
       await _supabase.from('suppliers').insert({
         'name': name,
         'contact_person': contactPerson,
         'phone': phone,
         'address': address,
-        'notes': notes,
+        
+        // [UBAH INI] Dari 'note' menjadi 'notes'
+        // Pastikan nama ini SAMA PERSIS dengan nama kolom di Supabase Table Editor
+        'notes': notes, 
+        
+        'image_url': imageUrl,
       });
+      
     } catch (e) {
       throw Exception('Gagal menambah supplier: $e');
     }

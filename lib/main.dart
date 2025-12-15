@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // [1. WAJIB IMPORT INI]
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -16,17 +17,23 @@ import 'features/product/data/datasources/product_remote_data_source.dart';
 import 'features/product/data/repositories/product_repository_impl.dart';
 import 'features/product/presentation/providers/product_provider.dart';
 
-// Feature: Supplier (PENTING: Pastikan path ini benar)
+// Feature: Supplier
 import 'features/supplier/data/repositories/supplier_repository.dart';
-import 'features/supplier/presentation/providers/providers.dart';
+import 'features/supplier/presentation/providers/providers.dart'; // Pastikan path ini benar atau arahkan ke supplier_provider.dart
 
+// Feature: Category
 import 'features/category/data/repositories/category_repository.dart';
-import 'features/category/presentation/providers/providers.dart';
-
-
+import 'features/category/presentation/providers/providers.dart'; // Pastikan path ini benar atau arahkan ke category_provider.dart
+import 'main_screen.dart'; // Pastikan import MainScreen ada jika nanti login berhasil
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // [2. SETUP STATUS BAR TRANSPARAN]
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent, // Membuat status bar tembus pandang
+    statusBarIconBrightness: Brightness.dark, // Icon (jam, baterai) jadi hitam
+  ));
 
   // Inisialisasi Supabase
   await Supabase.initialize(
@@ -61,12 +68,13 @@ class MyApp extends StatelessWidget {
           ),
         ),
 
-        // 3. Supplier Provider [SOLUSI ERROR SEBELUMNYA]
+        // 3. Supplier Provider
         ChangeNotifierProvider(
           create: (_) =>
               SupplierProvider(SupplierRepository(Supabase.instance.client)),
         ),
 
+        // 4. Category Provider
         ChangeNotifierProvider(
           create: (_) => CategoryProvider(
             CategoryRepository(Supabase.instance.client),
@@ -81,7 +89,7 @@ class MyApp extends StatelessWidget {
         // Tema Aplikasi
         theme: ThemeData(
           fontFamily: 'SFPro',
-          scaffoldBackgroundColor: Colors.white,
+          scaffoldBackgroundColor: Colors.white, // Background putih bersih
           colorScheme: ColorScheme.fromSeed(
             seedColor: AppColors.primaryGreen,
             primary: AppColors.primaryGreen,
@@ -97,10 +105,17 @@ class MyApp extends StatelessWidget {
               fontWeight: FontWeight.bold,
               fontFamily: 'SFPro',
             ),
+            // Agar status bar di AppBar juga mengikuti settingan global
+            systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
+              statusBarIconBrightness: Brightness.dark,
+            ),
           ),
         ),
 
         // Halaman Awal
+        // Logikanya: Jika user sudah login -> MainScreen, jika belum -> SignInPage
+        // Untuk sementara diarahkan ke SignInPage sesuai kode Anda
         home: const SignInPage(),
       ),
     );

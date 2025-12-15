@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart'; // [WAJIB]
+import 'package:provider/provider.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/widgets/custom_header.dart';
 import '../widgets/supplier_card.dart';
 import 'supplier_detail_page.dart';
 import 'supplier_add_page.dart';
-
-// [PENTING] INI YANG HILANG TADI
-import '../providers/providers.dart';
+import '../providers/supplier_provider.dart'; // Sesuaikan path provider Anda
 
 class SupplierListPage extends StatefulWidget {
   const SupplierListPage({super.key});
@@ -67,10 +65,15 @@ class _SupplierListPageState extends State<SupplierListPage> {
                       itemCount: provider.suppliers.length,
                       itemBuilder: (context, index) {
                         final supplier = provider.suppliers[index];
+                        
                         return SupplierCard(
                           name: supplier.name,
                           phone: supplier.phone,
                           address: supplier.address,
+                          
+                          // [BARU] Kirim URL gambar ke Card agar tampil
+                          imageUrl: supplier.imageUrl, 
+                          
                           onTap: () {
                             Navigator.push(
                               context,
@@ -81,7 +84,7 @@ class _SupplierListPageState extends State<SupplierListPage> {
                                   email: "-",
                                   phone: supplier.phone,
                                   contactPerson: supplier.contactPerson,
-                                  notes: supplier.notes,
+                                  notes: supplier.notes, // Pastikan field ini sesuai model ('note' atau 'notes')
                                 ),
                               ),
                             );
