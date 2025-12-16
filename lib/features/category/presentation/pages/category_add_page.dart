@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/widgets/custom_button.dart';
@@ -18,12 +20,44 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
   final TextEditingController _descController = TextEditingController();
   bool _isActive = true;
   bool _isLoading = false;
+  File? _imageFile;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController.addListener(() {
+      setState(() {});
+    });
+  }
 
   @override
   void dispose() {
     _nameController.dispose();
     _descController.dispose();
     super.dispose();
+  }
+
+  Future<void> _pickImage() async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? image = await picker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 50,
+        maxWidth: 800,
+        maxHeight: 800,
+      );
+      if (image != null) {
+        setState(() {
+          _imageFile = File(image.path);
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Gagal memilih gambar: $e')),
+        );
+      }
+    }
   }
 
   @override
@@ -40,27 +74,60 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
             children: [
               const CustomHeader(
                 title: "Category",
-                showBackButton: false,
+                showBackButton: true,
               ),
               const SizedBox(height: 20),
-              Container(
-                width: double.infinity,
-                height: 180,
-                decoration: BoxDecoration(
-                  color: previewColor,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: const Center(
-                  child: Text(
-                    "Preview",
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
+
+              // Preview Area dengan Image Picker
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: _pickImage,
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: previewColor,
+                        borderRadius: BorderRadius.circular(16),
+                        image: _imageFile != null
+                            ? DecorationImage(
+                                image: FileImage(_imageFile!),
+                                fit: BoxFit.cover,
+                              )
+                            : null,
+                      ),
+                      child: _imageFile == null
+                          ? const Icon(Icons.add_a_photo, color: Colors.white, size: 40)
+                          : null,
                     ),
                   ),
-                ),
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _nameController.text.isEmpty
+                              ? "Preview"
+                              : _nameController.text,
+                          style: const TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          "Tap gambar untuk mengubah",
+                          style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
+
               const SizedBox(height: 30),
 
               // Form Inputs
@@ -68,6 +135,7 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
                 label: "Nama Kategori :",
                 hint: "Contoh: Electronic",
                 controller: _nameController,
+                onChanged: (val) => setState(() {}),
               ),
               CustomTextField(
                 label: "Deskripsi :",
@@ -93,7 +161,7 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
               ),
               const SizedBox(height: 40),
 
-              // [UPDATE] Tombol Save
+              // Tombol Save
               CustomButton(
                 text: "Save",
                 isLoading: _isLoading, 
@@ -112,6 +180,7 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
                         _nameController.text,
                         _descController.text,
                         _isActive,
+                        imageFile: _imageFile,
                       );
 
                   if (context.mounted) {
@@ -137,7 +206,6 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
     );
   }
 
-  // ... Widget _buildStatusButton tetap sama ...
   Widget _buildStatusButton(String text, bool statusValue) {
     final isSelected = _isActive == statusValue;
     return GestureDetector(

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import '../../data/models/category_model.dart';
 import '../../data/repositories/category_repository.dart';
@@ -33,8 +34,9 @@ class CategoryProvider extends ChangeNotifier {
   Future<bool> addCategory(
     String name,
     String description,
-    bool isActive,
-  ) async {
+    bool isActive, {
+    File? imageFile,
+  }) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
@@ -47,6 +49,42 @@ class CategoryProvider extends ChangeNotifier {
         description: description,
         isActive: isActive,
         hexColor: defaultPinkColor,
+        imageFile: imageFile,
+      );
+
+      await fetchCategories();
+      return true;
+    } catch (e) {
+      _errorMessage = e.toString();
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> updateCategory({
+    required String id,
+    required String name,
+    required String description,
+    required bool isActive,
+    String? oldImageUrl,
+    File? newImageFile,
+  }) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      const String defaultPinkColor = "0xFFF4A4A4";
+
+      await _repository.updateCategory(
+        id: id,
+        name: name,
+        description: description,
+        isActive: isActive,
+        hexColor: defaultPinkColor,
+        oldImageUrl: oldImageUrl,
+        newImageFile: newImageFile,
       );
 
       await fetchCategories();

@@ -65,16 +65,19 @@ class _CategoryListPageState extends State<CategoryListPage> {
                         final category = provider.categories[index];
                         return CategoryCard(
                           title: category.name,
-                          color: category.color, // Mengambil warna dari Model
+                          color: category.color,
+                          imageUrl: category.imageUrl,
                           onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => CategoryDetailPage(
+                                  id: category.id,
                                   name: category.name,
                                   color: category.color,
                                   description: category.description,
                                   isActive: category.isActive,
+                                  imageUrl: category.imageUrl,
                                 ),
                               ),
                             );

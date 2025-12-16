@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../../core/constants/app_colors.dart';
 import '../../../../core/widgets/custom_header.dart';
 import '../../../product/presentation/providers/product_provider.dart';
 import '../../../product/presentation/widgets/product_card.dart';
 import '../../../product/presentation/pages/product_detail_page.dart';
+import 'category_edit_page.dart';
 
 class CategoryDetailPage extends StatefulWidget {
+  final String id;
   final String name;
   final String description;
   final Color color;
   final bool isActive;
+  final String? imageUrl;
 
   const CategoryDetailPage({
     super.key,
+    required this.id,
     required this.name,
     required this.description,
     required this.color,
     required this.isActive,
+    this.imageUrl,
   });
 
   @override
@@ -51,7 +57,7 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 decoration: BoxDecoration(
-                  color: widget.color, // Warna sesuai kategori
+                  color: AppColors.accentYellow,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Center(
@@ -139,6 +145,33 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
                 ),
               ),
             ],
+          ),
+        ),
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 20, right: 10),
+        child: SizedBox(
+          width: 70,
+          height: 70,
+          child: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CategoryEditPage(
+                    id: widget.id,
+                    currentName: widget.name,
+                    currentDescription: widget.description,
+                    currentIsActive: widget.isActive,
+                    currentImageUrl: widget.imageUrl,
+                  ),
+                ),
+              );
+            },
+            backgroundColor: AppColors.creamBackground,
+            shape: const CircleBorder(),
+            elevation: 0,
+            child: const Icon(Icons.edit, color: Colors.white, size: 30),
           ),
         ),
       ),
