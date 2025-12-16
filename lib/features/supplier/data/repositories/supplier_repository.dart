@@ -23,9 +23,6 @@ class SupplierRepository {
   }
 
   // 2. Tambah Data Supplier (Dengan Gambar)
-  // ... import dan kode lainnya ...
-
-  // 2. Tambah Data Supplier (Dengan Gambar)
   Future<void> addSupplier({
     required String name,
     required String contactPerson,
@@ -55,11 +52,7 @@ class SupplierRepository {
         'phone': phone,
         'address': address,
         'email': email,
-        
-        // [UBAH INI] Dari 'note' menjadi 'notes'
-        // Pastikan nama ini SAMA PERSIS dengan nama kolom di Supabase Table Editor
         'notes': notes, 
-        
         'image_url': imageUrl,
       });
       

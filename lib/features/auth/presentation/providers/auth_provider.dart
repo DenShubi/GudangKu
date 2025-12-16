@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../domain/repositories/auth_repository.dart';
 
 class AuthProvider extends ChangeNotifier {
-  // 1. Di sini nama variabelnya adalah 'repository'
   final AuthRepository repository; 
 
   AuthProvider(this.repository);
@@ -14,7 +13,6 @@ class AuthProvider extends ChangeNotifier {
   String? get errorMessage => _errorMessage;
 
   Future<bool> authenticate(String email, String password, String name, bool isSignIn) async {
-    // ... (kode authenticate tetap sama) ...
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
@@ -39,7 +37,6 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> signOut() async {
     try {
-      // 2. [PERBAIKAN] Gunakan 'repository' agar sesuai dengan deklarasi di atas
       await repository.signOut(); 
       notifyListeners();
     } catch (e) {

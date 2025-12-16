@@ -49,9 +49,9 @@ class _SupplierAddPageState extends State<SupplierAddPage> {
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(
       source: ImageSource.gallery,
-      imageQuality: 50, // Compress image quality
-      maxWidth: 800,   // Limit width
-      maxHeight: 800,  // Limit height
+      imageQuality: 50, 
+      maxWidth: 800,   
+      maxHeight: 800,  
     );
 
     if (image != null) {
@@ -84,7 +84,7 @@ class _SupplierAddPageState extends State<SupplierAddPage> {
               Row(
                 children: [
                   GestureDetector(
-                    onTap: _pickImage, // Allow tapping to pick image
+                    onTap: _pickImage, 
                     child: Container(
                       width: 100,
                       height: 100,
@@ -209,7 +209,7 @@ class _SupplierAddPageState extends State<SupplierAddPage> {
                         _addressController.text,
                         _emailController.text,
                         _noteController.text,
-                        imageFile: _imageFile, // Sending the image file
+                        imageFile: _imageFile, 
                       );
 
                   if (context.mounted) {

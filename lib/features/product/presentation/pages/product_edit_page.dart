@@ -2,8 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-
-// Imports
 import '../../../../core/widgets/custom_header.dart';
 import '../../../../core/widgets/custom_text_field.dart';
 import '../../../../core/widgets/custom_button.dart';
@@ -12,10 +10,9 @@ import 'package:gudangku/features/product/data/models/product_model.dart';
 import 'package:gudangku/features/category/presentation/providers/providers.dart';
 
 class ProductEditScreen extends StatefulWidget {
-  // Terima data awal dari Detail Page
   final String id;
   final String currentName;
-  final String currentPrice; // String format (Rp...)
+  final String currentPrice; 
   final String currentStock;
   final String currentCategory;
   final String currentDescription;
@@ -51,7 +48,6 @@ class _ProductEditPageState extends State<ProductEditScreen> {
     // 1. Isi Controller dengan data lama
     _nameController = TextEditingController(text: widget.currentName);
     
-    // Bersihkan format "Rp. " agar jadi angka saja di textfield
     String cleanPrice = widget.currentPrice.replaceAll(RegExp(r'[^0-9]'), '');
     _priceController = TextEditingController(text: cleanPrice);
     
@@ -123,10 +119,7 @@ class _ProductEditPageState extends State<ProductEditScreen> {
                       decoration: BoxDecoration(
                         color: Colors.grey[300],
                         borderRadius: BorderRadius.circular(16),
-                        // Logika Tampilan: 
-                        // 1. Jika pilih gambar baru -> Tampilkan File
-                        // 2. Jika tidak, tapi ada URL lama -> Tampilkan Network
-                        // 3. Kosong
+
                         image: _newImageFile != null
                             ? DecorationImage(image: FileImage(_newImageFile!), fit: BoxFit.cover)
                             : (widget.currentImageUrl != null 
@@ -207,8 +200,8 @@ class _ProductEditPageState extends State<ProductEditScreen> {
                   final success = true;
 
                   if (success && context.mounted) {
-                    Navigator.pop(context); // Balik ke Detail
-                    Navigator.pop(context); // Balik ke List (biar refresh full)
+                    Navigator.pop(context); 
+                    Navigator.pop(context); 
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text("Product updated successfully!")),
                     );

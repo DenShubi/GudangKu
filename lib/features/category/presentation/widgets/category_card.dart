@@ -44,7 +44,6 @@ class CategoryCard extends StatelessWidget {
                 flex: 3,
                 child: Container(
                   decoration: BoxDecoration(
-                    // Jika tidak ada gambar, gunakan accentYellow
                     color: hasImage ? color : AppColors.accentYellow,
                     image: hasImage
                         ? DecorationImage(

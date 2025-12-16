@@ -15,8 +15,6 @@ import 'features/product/data/repositories/product_repository_impl.dart';
 import 'features/product/presentation/providers/product_provider.dart';
 import 'features/supplier/data/repositories/supplier_repository.dart';
 import 'features/supplier/presentation/providers/providers.dart';
-
-// Feature: Category
 import 'features/category/data/repositories/category_repository.dart';
 import 'features/category/presentation/providers/providers.dart';
 
@@ -94,7 +92,7 @@ class MyApp extends StatelessWidget {
               fontWeight: FontWeight.bold,
               fontFamily: 'SFPro',
             ),
-            // Agar status bar di AppBar juga mengikuti settingan global
+            // Appbar Global
             systemOverlayStyle: SystemUiOverlayStyle(
               statusBarColor: Colors.transparent,
               statusBarIconBrightness: Brightness.dark,
@@ -103,8 +101,6 @@ class MyApp extends StatelessWidget {
         ),
 
         // Halaman Awal
-        // Logikanya: Jika user sudah login -> MainScreen, jika belum -> SignInPage
-        // Untuk sementara diarahkan ke SignInPage sesuai kode Anda
         home: const SplashPage(),
       ),
     );

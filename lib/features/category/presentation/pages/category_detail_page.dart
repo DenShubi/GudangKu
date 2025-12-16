@@ -78,7 +78,6 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
               Expanded(
                 child: Consumer<ProductProvider>(
                   builder: (context, provider, child) {
-                    // FILTER: Ambil produk yang kategorinya sama dengan widget.name
                     final categoryProducts = provider.products
                         .where((product) => product.category == widget.name)
                         .toList();

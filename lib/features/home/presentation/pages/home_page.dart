@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:intl/intl.dart';
-
 import '../../../auth/presentation/providers/profile_provider.dart';
 import '../../../product/presentation/providers/product_provider.dart';
 import '../../../product/presentation/widgets/product_card.dart';
@@ -60,7 +59,7 @@ class _HomePageState extends State<HomePage> {
                         height: 50,
                         decoration: BoxDecoration(
                           color: Colors.grey[300],
-                          shape: BoxShape.circle,
+                          borderRadius: BorderRadius.circular(12),
                           image: avatarUrl != null && avatarUrl.isNotEmpty
                               ? DecorationImage(
                                   image: NetworkImage(avatarUrl),

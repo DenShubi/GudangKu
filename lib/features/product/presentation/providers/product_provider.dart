@@ -7,7 +7,6 @@ import '../../data/repositories/product_repository_impl.dart';
 class ProductProvider extends ChangeNotifier {
   final ProductRepositoryImpl repository;
   
-  // Kita butuh akses ke Supabase client langsung untuk Storage (khusus addProduct versi ini)
   final SupabaseClient supabase = Supabase.instance.client;
 
   ProductProvider(this.repository);
@@ -25,20 +24,20 @@ class ProductProvider extends ChangeNotifier {
   // 1. Fetch Products
   Future<void> fetchProducts() async {
   _isLoading = true;
-  notifyListeners(); // Update UI jadi loading
+  notifyListeners(); 
   
   try {
-    print("Fetching products..."); // Debug log
+    print("Fetching products..."); 
     _products = await repository.getProducts();
-    print("Fetched ${_products.length} products"); // Debug log
+    print("Fetched ${_products.length} products"); 
     _errorMessage = null;
   } catch (e) {
-    print("Error fetching products: $e"); // Debug log
+    print("Error fetching products: $e"); 
     _errorMessage = e.toString();
   }
   
   _isLoading = false;
-  notifyListeners(); // Update UI setelah selesai
+  notifyListeners(); 
 }
 
   // 2. Add Product
@@ -70,7 +69,7 @@ class ProductProvider extends ChangeNotifier {
       final intStock = int.tryParse(stock) ?? 0;
 
       final newProduct = ProductModel(
-        id: '', // ID akan di-generate otomatis oleh DB
+        id: '', 
         name: name,
         price: doublePrice,
         stock: intStock,
@@ -100,8 +99,8 @@ class ProductProvider extends ChangeNotifier {
     required String stock,
     required String category,
     required String description,
-    required String? oldImageUrl, // URL lama (jika tidak ganti gambar)
-    File? newImageFile,           // File baru (jika ganti gambar)
+    required String? oldImageUrl, 
+    File? newImageFile,           
   }) async {
     _isLoading = true;
     notifyListeners();
@@ -110,9 +109,6 @@ class ProductProvider extends ChangeNotifier {
       final doublePrice = double.tryParse(price) ?? 0.0;
       final intStock = int.tryParse(stock) ?? 0;
 
-      // Kita buat objek model sementara.
-      // Note: imageUrl diisi oldImageUrl dulu. 
-      // Jika ada newImageFile, DataSource akan menimpanya dengan URL baru.
       final productToUpdate = ProductModel(
         id: id,
         name: name,
@@ -128,17 +124,16 @@ class ProductProvider extends ChangeNotifier {
         newImageFile: newImageFile
       );
 
-      // Refresh data agar tampilan list terupdate otomatis
       await fetchProducts(); 
 
       _isLoading = false;
       notifyListeners();
-      return true; // Berhasil
+      return true; 
     } catch (e) {
       _isLoading = false;
       _errorMessage = e.toString();
       notifyListeners();
-      return false; // Gagal
+      return false; 
     }
   }
 

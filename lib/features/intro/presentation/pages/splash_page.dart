@@ -56,17 +56,6 @@ class _SplashPageState extends State<SplashPage> {
               height: 150,
             ),
             const SizedBox(height: 20),
-            // Opsional: Jika ingin ada teks judul aplikasi
-            /*
-            const Text(
-              "GudangKu",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: AppColors.textBlack,
-              ),
-            ),
-            */
           ],
         ),
       ),

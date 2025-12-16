@@ -5,9 +5,6 @@ import '../widgets/product_card.dart';
 import '../providers/product_provider.dart';
 import 'product_add_page.dart';
 import 'product_detail_page.dart';
-
-
-// Import Custom Header
 import '../../../../core/widgets/custom_header.dart'; 
 
 class ProductListPage extends StatefulWidget {
@@ -104,8 +101,7 @@ class _ProductListPageState extends State<ProductListPage> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ProductDetailPage(
-                                    // [PERBAIKAN ERROR DI SINI]
-                                    // Kita wajib kirim ID lengkap ke halaman detail
+
                                     id: product.id, 
                                     
                                     name: product.name,

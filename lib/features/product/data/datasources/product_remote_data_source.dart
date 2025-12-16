@@ -57,7 +57,7 @@ class ProductRemoteDataSource {
       await client
           .from('products')
           .update(dataToUpdate)
-          .eq('id', product.id); // Filter where id = product.id
+          .eq('id', product.id); 
           
     } catch (e) {
       throw Exception("Failed to update product: $e");

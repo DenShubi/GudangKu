@@ -4,9 +4,9 @@ class SupplierModel {
   final String contactPerson;
   final String phone;
   final String address;
-  final String email;    // Field email
-  final String notes;   // Konsisten menggunakan 'notes' sesuai Database
-  final String? imageUrl; // [BARU] Field gambar
+  final String email;    
+  final String notes;   
+  final String? imageUrl; 
 
   SupplierModel({
     required this.id,
@@ -16,7 +16,7 @@ class SupplierModel {
     required this.address,
     required this.email,
     required this.notes,
-    this.imageUrl, // [BARU]
+    this.imageUrl, 
   });
 
   // Dari Supabase (JSON) ke Dart
@@ -49,7 +49,7 @@ class SupplierModel {
       'address': address,
       'email': email,
       'notes': notes,
-      'image_url': imageUrl, // Sertakan ini juga
+      'image_url': imageUrl, 
     };
   }
 }

@@ -5,7 +5,7 @@ class ProductModel {
   final int stock;
   final String category;
   final String description;
-  final String? imageUrl; // [BARU] Tambahkan field ini (boleh null)
+  final String? imageUrl; 
 
   ProductModel({
     required this.id,
@@ -14,7 +14,7 @@ class ProductModel {
     required this.stock,
     required this.category,
     required this.description,
-    this.imageUrl, // [BARU]
+    this.imageUrl, 
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
@@ -25,7 +25,7 @@ class ProductModel {
       stock: json['stock'] ?? 0,
       category: json['category'] ?? '-',
       description: json['description'] ?? '-',
-      imageUrl: json['image_url'], // [BARU] Ambil dari kolom image_url di DB
+      imageUrl: json['image_url'], 
     );
   }
 

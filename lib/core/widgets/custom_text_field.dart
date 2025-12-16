@@ -9,7 +9,7 @@ class CustomTextField extends StatelessWidget {
   final int maxLines;
   final Function(String)? onChanged;
   final TextInputType? keyboardType;
-  final bool obscureText; // [BARU] Tambahkan parameter ini
+  final bool obscureText; 
 
   const CustomTextField({
     super.key,
@@ -20,7 +20,7 @@ class CustomTextField extends StatelessWidget {
     this.maxLines = 1,
     this.onChanged,
     this.keyboardType,
-    this.obscureText = false, // [BARU] Defaultnya false (teks terlihat)
+    this.obscureText = false, 
   });
 
   @override
@@ -32,12 +32,12 @@ class CustomTextField extends StatelessWidget {
         Text(
           label,
           style: const TextStyle(
-            fontSize: 22, // Tetap 22 sesuai kode Anda
+            fontSize: 22, 
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
         ),
-        const SizedBox(height: 15), // Tetap 15 sesuai kode Anda
+        const SizedBox(height: 15), 
         
         // Input Field
         TextFormField(
@@ -45,13 +45,12 @@ class CustomTextField extends StatelessWidget {
           keyboardType: keyboardType ?? (isNumber ? TextInputType.number : TextInputType.text),
           maxLines: maxLines,
           onChanged: onChanged,
-          obscureText: obscureText, // [BARU] Pasang Logic Password di sini
+          obscureText: obscureText, 
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: const TextStyle(color: Colors.black54),
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             
-            // --- ATUR STYLE GLOBAL DISINI (Sesuai kode Anda) ---
             // Border Normal
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
@@ -65,7 +64,7 @@ class CustomTextField extends StatelessWidget {
             // Border saat diklik (Fokus)
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.accentYellow, width: 2), // Tetap accentYellow
+              borderSide: const BorderSide(color: AppColors.accentYellow, width: 2), 
             ),
             // --------------------------------
           ),

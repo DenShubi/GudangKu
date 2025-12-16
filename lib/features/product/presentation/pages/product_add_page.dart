@@ -3,11 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../../../category/presentation/providers/category_provider.dart';
-// Import Provider
 import '../providers/product_provider.dart';
-import 'package:gudangku/features/category/presentation/providers/providers.dart'; // [BARU] Import CategoryProvider
-
-// Import Shared Components
+import 'package:gudangku/features/category/presentation/providers/providers.dart'; 
 import '../../../../core/widgets/custom_header.dart';
 import '../../../../core/widgets/custom_text_field.dart';
 import '../../../../core/widgets/custom_button.dart';
@@ -24,10 +21,9 @@ class _ProductAddPageState extends State<ProductAddPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _stockController = TextEditingController();
-  // final TextEditingController _categoryController = TextEditingController(); // [HAPUS INI]
   final TextEditingController _descController = TextEditingController();
 
-  String? _selectedCategory; // [BARU] Variable untuk nyimpan pilihan dropdown
+  String? _selectedCategory; 
 
   @override
   void initState() {
@@ -231,7 +227,7 @@ class _ProductAddPageState extends State<ProductAddPage> {
                     _nameController.text,
                     _priceController.text,
                     _stockController.text,
-                    _selectedCategory!, // [UPDATE] Pakai nilai dropdown
+                    _selectedCategory!, 
                     _descController.text,
                     _imageFile,
                   );

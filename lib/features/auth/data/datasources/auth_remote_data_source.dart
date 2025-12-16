@@ -19,10 +19,8 @@ class AuthRemoteDataSource {
       
       return response.user!.id; 
     } on AuthException catch (e) {
-      // Ini menangkap error spesifik dari Supabase (misal: pass salah)
       throw e.message; 
     } catch (e) {
-      // Ini menangkap error umum (misal: internet mati)
       throw 'Terjadi kesalahan: $e';
     }
   }
@@ -33,7 +31,7 @@ class AuthRemoteDataSource {
       final response = await supabase.auth.signUp(
         email: email,
         password: password,
-        data: {'full_name': name}, // KITA SIMPAN NAMA DI SINI
+        data: {'full_name': name}, 
       );
 
       if (response.user == null) {

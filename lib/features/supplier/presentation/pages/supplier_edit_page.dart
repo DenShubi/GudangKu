@@ -126,10 +126,6 @@ class _SupplierEditPageState extends State<SupplierEditPage> {
                       decoration: BoxDecoration(
                         color: Colors.grey[300],
                         borderRadius: BorderRadius.circular(16),
-                        // Logika tampilan:
-                        // 1. Jika ada gambar baru -> tampilkan File
-                        // 2. Jika tidak, tapi ada URL lama -> tampilkan Network
-                        // 3. Kosong -> tampilkan inisial
                         image: _newImageFile != null
                             ? DecorationImage(
                                 image: FileImage(_newImageFile!),
@@ -256,8 +252,8 @@ class _SupplierEditPageState extends State<SupplierEditPage> {
                   );
 
                   if (success && context.mounted) {
-                    Navigator.pop(context); // Kembali ke Detail
-                    Navigator.pop(context); // Kembali ke List (refresh)
+                    Navigator.pop(context); 
+                    Navigator.pop(context); 
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text("Supplier updated successfully!")),
                     );

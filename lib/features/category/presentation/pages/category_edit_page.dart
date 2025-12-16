@@ -106,10 +106,6 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
                       decoration: BoxDecoration(
                         color: previewColor,
                         borderRadius: BorderRadius.circular(16),
-                        // Logika tampilan:
-                        // 1. Jika ada gambar baru -> tampilkan File
-                        // 2. Jika tidak, tapi ada URL lama -> tampilkan Network
-                        // 3. Kosong -> tampilkan icon
                         image: _newImageFile != null
                             ? DecorationImage(
                                 image: FileImage(_newImageFile!),
@@ -212,8 +208,8 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
                   );
 
                   if (success && context.mounted) {
-                    Navigator.pop(context); // Kembali ke Detail
-                    Navigator.pop(context); // Kembali ke List (refresh)
+                    Navigator.pop(context); 
+                    Navigator.pop(context); 
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text("Category updated successfully!")),
                     );

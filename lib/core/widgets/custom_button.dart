@@ -3,10 +3,10 @@ import '../constants/app_colors.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
-  final VoidCallback? onPressed; // Fungsi yang dijalankan saat klik
-  final bool isLoading; // Status loading
-  final Color? backgroundColor; // Opsional: jika ingin warna selain Hijau
-  final Color? textColor; // Opsional: jika ingin warna teks selain Hitam
+  final VoidCallback? onPressed; 
+  final bool isLoading; 
+  final Color? backgroundColor; 
+  final Color? textColor; 
 
   const CustomButton({
     super.key,
@@ -21,13 +21,11 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 55, // Tinggi sesuai desain Anda (55)
+      height: 55, 
       child: ElevatedButton(
-        // Logika: Jika sedang loading, tombol dimatikan (null) agar tidak bisa diklik 2x
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor ?? AppColors.primaryGreen,
-          // Warna saat tombol disabled/loading (tetap hijau tapi agak pudar dikit atau tetap)
           disabledBackgroundColor: (backgroundColor ?? AppColors.primaryGreen), 
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -39,7 +37,7 @@ class CustomButton extends StatelessWidget {
                 height: 24,
                 width: 24,
                 child: CircularProgressIndicator(
-                  color: Colors.black, // Warna spinner sesuai desain Anda
+                  color: Colors.black, 
                   strokeWidth: 3,
                 ),
               )

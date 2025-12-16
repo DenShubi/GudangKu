@@ -23,17 +23,16 @@ class ProductCard extends StatelessWidget {
   // Helper untuk menentukan warna background kotak stok
   Color _getStockColor(int stock) {
     if (stock > 50) {
-      return const Color(0xFFA3E635); // Hijau Lime cerah (sesuai gambar)
+      return const Color(0xFFA3E635); 
     } else if (stock >= 10) {
-      return const Color(0xFFFDE047); // Kuning
+      return const Color(0xFFFDE047); 
     } else {
-      return const Color(0xFFF87171); // Merah Soft
+      return const Color(0xFFF87171); 
     }
   }
 
   // Helper untuk menentukan warna teks (agar kontras)
   Color _getStockTextColor(int stock) {
-    // Karena background warna pastel/cerah, teks hitam lebih jelas
     return Colors.black87; 
   }
 
@@ -56,7 +55,7 @@ class ProductCard extends StatelessWidget {
           ],
         ),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start, // Align item ke atas
+          crossAxisAlignment: CrossAxisAlignment.start, 
           children: [
             // 1. Bagian Gambar
             Container(

@@ -7,8 +7,8 @@ class CustomHeader extends StatelessWidget {
 
   const CustomHeader({
     super.key,
-    this.title = 'Products', // Default text
-    this.showBackButton = false, // Default tidak ada tombol back
+    this.title = 'Products', 
+    this.showBackButton = false, 
     this.onBackTap,
   });
 
@@ -16,23 +16,22 @@ class CustomHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        // Logika: Jika showBackButton true, tampilkan icon panah
         if (showBackButton) ...[
           IconButton(
             // Jika onBackTap tidak diisi, default-nya Navigator.pop
             onPressed: onBackTap ?? () => Navigator.pop(context),
             icon: const Icon(Icons.arrow_back_ios, color: Colors.black, size: 28),
-            padding: EdgeInsets.zero, // Hapus padding bawaan agar rapat kiri
+            padding: EdgeInsets.zero, 
             constraints: const BoxConstraints(),
           ),
-          const SizedBox(width: 16), // Jarak antara panah dan teks
+          const SizedBox(width: 16), 
         ],
         
         // Judul Utama
         Text(
           title,
           style: const TextStyle(
-            fontSize: 34, // Ukuran font disamakan dengan Product List Page
+            fontSize: 34, 
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),

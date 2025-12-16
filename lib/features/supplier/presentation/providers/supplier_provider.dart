@@ -51,18 +51,18 @@ class SupplierProvider extends ChangeNotifier {
         address: address,
         email: email,
         notes: notes,
-        imageFile: imageFile, // Teruskan ke Repository
+        imageFile: imageFile, 
       );
       
       // Refresh list setelah berhasil tambah
       await fetchSuppliers();
       
-      return true; // Berhasil
+      return true; 
     } catch (e) {
       _errorMessage = e.toString();
       _isLoading = false;
       notifyListeners();
-      return false; // Gagal
+      return false; 
     }
   }
 
@@ -97,12 +97,12 @@ class SupplierProvider extends ChangeNotifier {
       // Refresh list setelah berhasil update
       await fetchSuppliers();
 
-      return true; // Berhasil
+      return true; 
     } catch (e) {
       _errorMessage = e.toString();
       _isLoading = false;
       notifyListeners();
-      return false; // Gagal
+      return false; 
     }
   }
 

@@ -115,7 +115,7 @@ class SupplierDetailPage extends StatelessWidget {
                 textAlign: TextAlign.justify,
               ),
               
-              const SizedBox(height: 80), // Space bawah agar tidak ketutup FAB
+              const SizedBox(height: 80), 
             ],
           ),
         ),
@@ -159,9 +159,8 @@ class SupplierDetailPage extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start, // Align start agar jika alamat panjang tetap rapi
+        crossAxisAlignment: CrossAxisAlignment.start, 
         children: [
-          // Label Kiri (fixed width agar rapi jika label pendek)
           SizedBox(
             width: 100, 
             child: Text(
@@ -176,7 +175,6 @@ class SupplierDetailPage extends StatelessWidget {
               value, 
               style: const TextStyle(fontSize: 20, color: Colors.black),
               textAlign: TextAlign.right,
-              // overflow: TextOverflow.ellipsis, // Boleh di-uncomment jika ingin dipotong
             ),
           ),
         ],
