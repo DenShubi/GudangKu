@@ -35,6 +35,7 @@ class SupplierProvider extends ChangeNotifier {
     String contactPerson,
     String phone,
     String address,
+    String email,
     String notes, {
     File? imageFile,
   }) async {
@@ -48,6 +49,7 @@ class SupplierProvider extends ChangeNotifier {
         contactPerson: contactPerson,
         phone: phone,
         address: address,
+        email: email,
         notes: notes,
         imageFile: imageFile, // Teruskan ke Repository
       );
@@ -70,6 +72,7 @@ class SupplierProvider extends ChangeNotifier {
     required String contactPerson,
     required String phone,
     required String address,
+    required String email,
     required String notes,
     String? oldImageUrl,
     File? newImageFile,
@@ -85,6 +88,7 @@ class SupplierProvider extends ChangeNotifier {
         contactPerson: contactPerson,
         phone: phone,
         address: address,
+        email: email,
         notes: notes,
         oldImageUrl: oldImageUrl,
         newImageFile: newImageFile,

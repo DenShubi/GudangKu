@@ -136,6 +136,7 @@ class SupplierDetailPage extends StatelessWidget {
                     currentContactPerson: contactPerson,
                     currentPhone: phone,
                     currentAddress: address,
+                    currentEmail: email,
                     currentNotes: notes,
                     currentImageUrl: imageUrl,
                   ),

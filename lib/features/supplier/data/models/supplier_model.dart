@@ -4,6 +4,7 @@ class SupplierModel {
   final String contactPerson;
   final String phone;
   final String address;
+  final String email;    // Field email
   final String notes;   // Konsisten menggunakan 'notes' sesuai Database
   final String? imageUrl; // [BARU] Field gambar
 
@@ -13,6 +14,7 @@ class SupplierModel {
     required this.contactPerson,
     required this.phone,
     required this.address,
+    required this.email,
     required this.notes,
     this.imageUrl, // [BARU]
   });
@@ -28,6 +30,7 @@ class SupplierModel {
       contactPerson: json['contact_person'] ?? '', 
       phone: json['phone'] ?? '',
       address: json['address'] ?? '',
+      email: json['email'] ?? '',
       
       // Database: 'notes' -> Dart: 'notes'
       notes: json['notes'] ?? '', 
@@ -44,6 +47,7 @@ class SupplierModel {
       'contact_person': contactPerson,
       'phone': phone,
       'address': address,
+      'email': email,
       'notes': notes,
       'image_url': imageUrl, // Sertakan ini juga
     };

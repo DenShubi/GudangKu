@@ -19,6 +19,7 @@ class _SupplierAddPageState extends State<SupplierAddPage> {
   final TextEditingController _cpController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
 
   File? _imageFile;
@@ -38,6 +39,7 @@ class _SupplierAddPageState extends State<SupplierAddPage> {
     _cpController.dispose();
     _phoneController.dispose();
     _addressController.dispose();
+    _emailController.dispose();
     _noteController.dispose();
     super.dispose();
   }
@@ -168,6 +170,12 @@ class _SupplierAddPageState extends State<SupplierAddPage> {
               ),
 
               CustomTextField(
+                label: "Email :",
+                hint: "contoh@email.com",
+                controller: _emailController,
+              ),
+
+              CustomTextField(
                 label: "Note : (Opsional)",
                 hint: "Catatan tambahan...",
                 controller: _noteController,
@@ -199,6 +207,7 @@ class _SupplierAddPageState extends State<SupplierAddPage> {
                         _cpController.text,
                         _phoneController.text,
                         _addressController.text,
+                        _emailController.text,
                         _noteController.text,
                         imageFile: _imageFile, // Sending the image file
                       );

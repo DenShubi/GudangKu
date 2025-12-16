@@ -71,7 +71,7 @@ class _SupplierListPageState extends State<SupplierListPage> {
                                   id: supplier.id,
                                   name: supplier.name,
                                   address: supplier.address,
-                                  email: "-",
+                                  email: supplier.email,
                                   phone: supplier.phone,
                                   contactPerson: supplier.contactPerson,
                                   notes: supplier.notes,

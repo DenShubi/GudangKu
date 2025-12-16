@@ -13,6 +13,7 @@ class SupplierEditPage extends StatefulWidget {
   final String currentContactPerson;
   final String currentPhone;
   final String currentAddress;
+  final String currentEmail;
   final String currentNotes;
   final String? currentImageUrl;
 
@@ -23,6 +24,7 @@ class SupplierEditPage extends StatefulWidget {
     required this.currentContactPerson,
     required this.currentPhone,
     required this.currentAddress,
+    required this.currentEmail,
     required this.currentNotes,
     this.currentImageUrl,
   });
@@ -36,6 +38,7 @@ class _SupplierEditPageState extends State<SupplierEditPage> {
   late TextEditingController _cpController;
   late TextEditingController _phoneController;
   late TextEditingController _addressController;
+  late TextEditingController _emailController;
   late TextEditingController _noteController;
 
   File? _newImageFile;
@@ -48,6 +51,7 @@ class _SupplierEditPageState extends State<SupplierEditPage> {
     _cpController = TextEditingController(text: widget.currentContactPerson);
     _phoneController = TextEditingController(text: widget.currentPhone);
     _addressController = TextEditingController(text: widget.currentAddress);
+    _emailController = TextEditingController(text: widget.currentEmail);
     _noteController = TextEditingController(text: widget.currentNotes);
 
     _nameController.addListener(() {
@@ -61,6 +65,7 @@ class _SupplierEditPageState extends State<SupplierEditPage> {
     _cpController.dispose();
     _phoneController.dispose();
     _addressController.dispose();
+    _emailController.dispose();
     _noteController.dispose();
     super.dispose();
   }
@@ -212,6 +217,12 @@ class _SupplierEditPageState extends State<SupplierEditPage> {
               ),
 
               CustomTextField(
+                label: "Email :",
+                hint: "contoh@email.com",
+                controller: _emailController,
+              ),
+
+              CustomTextField(
                 label: "Note : (Opsional)",
                 hint: "Catatan tambahan...",
                 controller: _noteController,
@@ -238,6 +249,7 @@ class _SupplierEditPageState extends State<SupplierEditPage> {
                     contactPerson: _cpController.text,
                     phone: _phoneController.text,
                     address: _addressController.text,
+                    email: _emailController.text,
                     notes: _noteController.text,
                     oldImageUrl: widget.currentImageUrl,
                     newImageFile: _newImageFile,

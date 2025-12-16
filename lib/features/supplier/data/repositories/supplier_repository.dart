@@ -31,6 +31,7 @@ class SupplierRepository {
     required String contactPerson,
     required String phone,
     required String address,
+    required String email,
     required String notes,
     File? imageFile, 
   }) async {
@@ -53,6 +54,7 @@ class SupplierRepository {
         'contact_person': contactPerson,
         'phone': phone,
         'address': address,
+        'email': email,
         
         // [UBAH INI] Dari 'note' menjadi 'notes'
         // Pastikan nama ini SAMA PERSIS dengan nama kolom di Supabase Table Editor
@@ -73,6 +75,7 @@ class SupplierRepository {
     required String contactPerson,
     required String phone,
     required String address,
+    required String email,
     required String notes,
     String? oldImageUrl,
     File? newImageFile,
@@ -97,6 +100,7 @@ class SupplierRepository {
         'contact_person': contactPerson,
         'phone': phone,
         'address': address,
+        'email': email,
         'notes': notes,
         'image_url': imageUrl,
       }).eq('id', id);
