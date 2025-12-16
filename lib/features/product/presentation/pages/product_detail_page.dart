@@ -80,12 +80,12 @@ class ProductDetailPage extends StatelessWidget {
               const SizedBox(height: 20),
               
               _buildDetailRow("ID", id.length > 8 ? id.substring(0, 8) : id), 
-              _buildDetailRow("Harga", price),    
-              _buildDetailRow("Stok", stock),
-              _buildDetailRow("Kategori", category),
+              _buildDetailRow("Price", price),    
+              _buildDetailRow("Stock", stock),
+              _buildDetailRow("Category", category),
 
               const SizedBox(height: 20),
-              const Text("Deskripsi", style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal)),
+              const Text("Description", style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal)),
               const SizedBox(height: 20),
               Text(
                 description,

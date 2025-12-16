@@ -130,7 +130,7 @@ class _SupplierAddPageState extends State<SupplierAddPage> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          "Tap gambar untuk mengubah",
+                          "Tap image to change",
                           style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                         ),
                       ],
@@ -143,14 +143,14 @@ class _SupplierAddPageState extends State<SupplierAddPage> {
 
               // Form Inputs
               CustomTextField(
-                label: "Nama PT :",
+                label: "Company Name :",
                 hint: "Contoh: Utilities",
                 controller: _nameController,
                 onChanged: (val) => setState(() {}),
               ),
 
               CustomTextField(
-                label: "Nama Contact Person :",
+                label: "Contact Person :",
                 hint: "Contoh: Ridwan",
                 controller: _cpController,
               ),
@@ -163,7 +163,7 @@ class _SupplierAddPageState extends State<SupplierAddPage> {
               ),
 
               CustomTextField(
-                label: "Alamat Lengkap :",
+                label: "Full Address :",
                 hint: "Jl. Bunga Merah...",
                 controller: _addressController,
                 maxLines: 1,
@@ -176,8 +176,8 @@ class _SupplierAddPageState extends State<SupplierAddPage> {
               ),
 
               CustomTextField(
-                label: "Note : (Opsional)",
-                hint: "Catatan tambahan...",
+                label: "Note : (Optional)",
+                hint: "Additional notes...",
                 controller: _noteController,
                 maxLines: 1,
               ),
@@ -191,7 +191,7 @@ class _SupplierAddPageState extends State<SupplierAddPage> {
                 onPressed: () async {
                   if (_nameController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Nama PT wajib diisi")),
+                      const SnackBar(content: Text("Company name is required")),
                     );
                     return;
                   }
@@ -219,7 +219,7 @@ class _SupplierAddPageState extends State<SupplierAddPage> {
                       Navigator.pop(context);
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text("Supplier berhasil disimpan!"),
+                          content: Text("Supplier saved successfully!"),
                         ),
                       );
                     } else {
@@ -228,7 +228,7 @@ class _SupplierAddPageState extends State<SupplierAddPage> {
                         listen: false,
                       ).errorMessage;
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(errorMsg ?? "Gagal menyimpan")),
+                        SnackBar(content: Text(errorMsg ?? "Failed to save")),
                       );
                     }
                   }

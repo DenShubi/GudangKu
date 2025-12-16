@@ -17,7 +17,7 @@ class CategoryRepository {
       final List<dynamic> data = response as List<dynamic>;
       return data.map((e) => CategoryModel.fromJson(e)).toList();
     } catch (e) {
-      throw Exception('Gagal mengambil kategori: $e');
+      throw Exception('Failed to fetch categories: $e');
     }
   }
 
@@ -50,7 +50,7 @@ class CategoryRepository {
         'image_url': imageUrl,
       });
     } catch (e) {
-      throw Exception('Gagal menambah kategori: $e');
+      throw Exception('Failed to add category: $e');
     }
   }
 
@@ -85,7 +85,7 @@ class CategoryRepository {
         'image_url': imageUrl,
       }).eq('id', id);
     } catch (e) {
-      throw Exception('Gagal update kategori: $e');
+      throw Exception('Failed to update category: $e');
     }
   }
 
@@ -109,7 +109,7 @@ class CategoryRepository {
       // 3. Hapus kategori
       await _supabase.from('categories').delete().eq('id', id);
     } catch (e) {
-      throw Exception('Gagal menghapus kategori: $e');
+      throw Exception('Failed to delete category: $e');
     }
   }
 }

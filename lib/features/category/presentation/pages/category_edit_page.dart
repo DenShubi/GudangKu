@@ -70,7 +70,7 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Gagal memilih gambar: $e')),
+          SnackBar(content: Text('Failed to pick image: $e')),
         );
       }
     }
@@ -148,7 +148,7 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          "Tap gambar untuk mengubah",
+                          "Tap image to change",
                           style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                         ),
                       ],
@@ -161,13 +161,13 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
 
               // Form Inputs
               CustomTextField(
-                label: "Nama Kategori :",
+                label: "Category Name :",
                 hint: "Contoh: Electronic",
                 controller: _nameController,
                 onChanged: (val) => setState(() {}),
               ),
               CustomTextField(
-                label: "Deskripsi :",
+                label: "Description :",
                 hint: "Contoh: Barang elektronik...",
                 controller: _descController,
                 maxLines: 3,
@@ -197,7 +197,7 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
                 onPressed: () async {
                   if (_nameController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Nama kategori wajib diisi")),
+                      const SnackBar(content: Text("Category name is required")),
                     );
                     return;
                   }
@@ -215,7 +215,7 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
                     Navigator.pop(context); // Kembali ke Detail
                     Navigator.pop(context); // Kembali ke List (refresh)
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Kategori berhasil diupdate!")),
+                      const SnackBar(content: Text("Category updated successfully!")),
                     );
                   }
                 },

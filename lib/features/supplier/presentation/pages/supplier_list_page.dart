@@ -51,7 +51,7 @@ class _SupplierListPageState extends State<SupplierListPage> {
                       return Center(child: Text(provider.errorMessage!));
                     }
                     if (provider.suppliers.isEmpty) {
-                      return const Center(child: Text("Belum ada supplier."));
+                      return const Center(child: Text("No suppliers yet."));
                     }
                     return ListView.builder(
                       itemCount: provider.suppliers.length,
@@ -61,8 +61,8 @@ class _SupplierListPageState extends State<SupplierListPage> {
                           onLongPress: () {
                             _showDeleteDialog(
                               context,
-                              'Hapus Supplier',
-                              'Apakah Anda yakin ingin menghapus "${supplier.name}"?',
+                              'Delete Supplier',
+                              'Are you sure you want to delete "${supplier.name}"?',
                               () async {
                                 final success = await provider.deleteSupplier(supplier.id);
                                 if (context.mounted) {
@@ -70,8 +70,8 @@ class _SupplierListPageState extends State<SupplierListPage> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(success
-                                          ? 'Supplier berhasil dihapus'
-                                          : 'Gagal menghapus supplier'),
+                                          ? 'Supplier deleted successfully'
+                                          : 'Failed to delete supplier'),
                                     ),
                                   );
                                 }
@@ -151,12 +151,12 @@ class _SupplierListPageState extends State<SupplierListPage> {
           TextButton(
             onPressed: () => Navigator.pop(context),
             style: TextButton.styleFrom(foregroundColor: Colors.black),
-            child: const Text('Batal'),
+            child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: onConfirm,
             style: TextButton.styleFrom(foregroundColor: Colors.red),
-            child: const Text('Hapus'),
+            child: const Text('Delete'),
           ),
         ],
       ),

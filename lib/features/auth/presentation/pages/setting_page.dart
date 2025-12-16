@@ -41,15 +41,15 @@ class _SettingPageState extends State<SettingPage> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text("Log Out"),
-        content: const Text("Apakah Anda yakin ingin keluar?"),
+        content: const Text("Are you sure you want to log out?"),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text("Batal"),
+            child: const Text("Cancel"),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text("Keluar", style: TextStyle(color: Colors.red)),
+            child: const Text("Log Out", style: TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -71,7 +71,7 @@ class _SettingPageState extends State<SettingPage> {
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Gagal Logout: $e")),
+            SnackBar(content: Text("Failed to logout: $e")),
           );
         }
       }

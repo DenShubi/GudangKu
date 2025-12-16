@@ -97,7 +97,7 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
                             Icon(Icons.inbox_outlined, size: 60, color: Colors.grey[300]),
                             const SizedBox(height: 10),
                             Text(
-                              "Tidak ada produk di kategori ${widget.name}",
+                              "No products in category ${widget.name}",
                               style: TextStyle(color: Colors.grey[500]),
                             ),
                           ],

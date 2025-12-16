@@ -129,11 +129,11 @@ class _SignInPageState extends State<SignInPage> {
                 onPressed: () async {
                   // Validasi
                   if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Email & Password wajib diisi")));
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Email & Password are required")));
                     return;
                   }
                   if (!_isSignIn && _nameController.text.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Nama wajib diisi")));
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Name is required")));
                     return;
                   }
 
@@ -153,7 +153,7 @@ class _SignInPageState extends State<SignInPage> {
                     );
                   } else if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(authProvider.errorMessage ?? "Gagal")),
+                      SnackBar(content: Text(authProvider.errorMessage ?? "Failed")),
                     );
                   }
                 },

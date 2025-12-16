@@ -44,8 +44,8 @@ class SupplierCard extends StatelessWidget {
           children: [
             // --- BAGIAN GAMBAR / INISIAL ---
             Container(
-              width: 60,
-              height: 60,
+              width: 100,
+              height: 100,
               decoration: BoxDecoration(
                 color: Colors.grey[200],
                 borderRadius: BorderRadius.circular(12),
@@ -79,9 +79,9 @@ class SupplierCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    name,
+                    "PT. $name",
                     style: const TextStyle(
-                      fontSize: 16,
+                      fontSize: 34,
                       fontWeight: FontWeight.bold,
                     ),
                     maxLines: 1,
@@ -92,7 +92,7 @@ class SupplierCard extends StatelessWidget {
                   // Phone Text Only
                   Text(
                     phone,
-                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                    style: const TextStyle(fontSize: 20, color: Colors.grey),
                   ),
                   
                   const SizedBox(height: 2),
@@ -100,7 +100,7 @@ class SupplierCard extends StatelessWidget {
                   // Address Text Only
                   Text(
                     address,
-                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                    style: const TextStyle(fontSize: 22, color: Colors.black),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),

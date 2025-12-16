@@ -87,7 +87,7 @@ class _SupplierEditPageState extends State<SupplierEditPage> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Gagal memilih gambar: $e')),
+          SnackBar(content: Text('Failed to pick image: $e')),
         );
       }
     }
@@ -177,7 +177,7 @@ class _SupplierEditPageState extends State<SupplierEditPage> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          "Tap gambar untuk mengubah",
+                          "Tap image to change",
                           style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                         ),
                       ],
@@ -190,14 +190,14 @@ class _SupplierEditPageState extends State<SupplierEditPage> {
 
               // Form Inputs
               CustomTextField(
-                label: "Nama PT :",
+                label: "Company Name :",
                 hint: "Contoh: Utilities",
                 controller: _nameController,
                 onChanged: (val) => setState(() {}),
               ),
 
               CustomTextField(
-                label: "Nama Contact Person :",
+                label: "Contact Person :",
                 hint: "Contoh: Ridwan",
                 controller: _cpController,
               ),
@@ -210,7 +210,7 @@ class _SupplierEditPageState extends State<SupplierEditPage> {
               ),
 
               CustomTextField(
-                label: "Alamat Lengkap :",
+                label: "Full Address :",
                 hint: "Jl. Bunga Merah...",
                 controller: _addressController,
                 maxLines: 1,
@@ -223,8 +223,8 @@ class _SupplierEditPageState extends State<SupplierEditPage> {
               ),
 
               CustomTextField(
-                label: "Note : (Opsional)",
-                hint: "Catatan tambahan...",
+                label: "Note : (Optional)",
+                hint: "Additional notes...",
                 controller: _noteController,
                 maxLines: 1,
               ),
@@ -238,7 +238,7 @@ class _SupplierEditPageState extends State<SupplierEditPage> {
                 onPressed: () async {
                   if (_nameController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Nama PT wajib diisi")),
+                      const SnackBar(content: Text("Company name is required")),
                     );
                     return;
                   }
@@ -259,7 +259,7 @@ class _SupplierEditPageState extends State<SupplierEditPage> {
                     Navigator.pop(context); // Kembali ke Detail
                     Navigator.pop(context); // Kembali ke List (refresh)
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Supplier berhasil diupdate!")),
+                      const SnackBar(content: Text("Supplier updated successfully!")),
                     );
                   }
                 },

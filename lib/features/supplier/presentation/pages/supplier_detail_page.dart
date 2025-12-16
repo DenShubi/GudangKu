@@ -76,7 +76,7 @@ class SupplierDetailPage extends StatelessWidget {
                   const SizedBox(width: 20),
                   Expanded(
                     child: Text(
-                      name,
+                      "PT. $name",
                       style: const TextStyle(
                         fontSize: 34,
                         fontWeight: FontWeight.bold,
@@ -91,14 +91,14 @@ class SupplierDetailPage extends StatelessWidget {
 
               // 3. Info Kontak (Mirip bagian "Detail :" di Product)
               const Text(
-                "Info Kontak :", 
+                "Contact Info :", 
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 20),
-              _buildDetailRow("Alamat", address), 
+              _buildDetailRow("Address", address), 
               _buildDetailRow("Email", email),
               _buildDetailRow("No Telp", phone),
-              _buildDetailRow("Nama CP", contactPerson),
+              _buildDetailRow("Contact Person", contactPerson),
               const SizedBox(height: 20),
               const Text(
                 "Note:", 

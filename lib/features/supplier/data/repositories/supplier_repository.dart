@@ -18,7 +18,7 @@ class SupplierRepository {
       final List<dynamic> data = response as List<dynamic>;
       return data.map((e) => SupplierModel.fromJson(e)).toList();
     } catch (e) {
-      throw Exception('Gagal mengambil data supplier: $e');
+      throw Exception('Failed to fetch suppliers: $e');
     }
   }
 
@@ -64,7 +64,7 @@ class SupplierRepository {
       });
       
     } catch (e) {
-      throw Exception('Gagal menambah supplier: $e');
+      throw Exception('Failed to add supplier: $e');
     }
   }
 
@@ -106,7 +106,7 @@ class SupplierRepository {
       }).eq('id', id);
 
     } catch (e) {
-      throw Exception('Gagal update supplier: $e');
+      throw Exception('Failed to update supplier: $e');
     }
   }
 
@@ -115,7 +115,7 @@ class SupplierRepository {
     try {
       await _supabase.from('suppliers').delete().eq('id', id);
     } catch (e) {
-      throw Exception('Gagal menghapus supplier: $e');
+      throw Exception('Failed to delete supplier: $e');
     }
   }
 }

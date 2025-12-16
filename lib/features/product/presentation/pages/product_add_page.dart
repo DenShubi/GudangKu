@@ -63,7 +63,7 @@ class _ProductAddPageState extends State<ProductAddPage> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Gagal memilih gambar: $e')),
+          SnackBar(content: Text('Failed to pick image: $e')),
         );
       }
     }
@@ -135,19 +135,19 @@ class _ProductAddPageState extends State<ProductAddPage> {
 
               // 2. FORM INPUT FIELDS
               CustomTextField(
-                label: "Nama Produk :",
+                label: "Product Name :",
                 hint: "Laptop",
                 controller: _nameController,
                 onChanged: (value) => setState(() {}),
               ),
               CustomTextField(
-                label: "Harga :",
+                label: "Price :",
                 hint: "1000000",
                 controller: _priceController,
                 isNumber: true,
               ),
               CustomTextField(
-                label: "Stok :",
+                label: "Stock :",
                 hint: "99",
                 controller: _stockController,
                 isNumber: true,
@@ -157,7 +157,7 @@ class _ProductAddPageState extends State<ProductAddPage> {
               const Padding(
                 padding: EdgeInsets.only(bottom: 15),
                 child: Text(
-                  "Kategori :",
+                  "Category :",
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -175,7 +175,7 @@ class _ProductAddPageState extends State<ProductAddPage> {
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
                     value: _selectedCategory,
-                    hint: const Text("Pilih Kategori", style: TextStyle(color: Colors.black54)),
+                    hint: const Text("Select Category", style: TextStyle(color: Colors.black54)),
                     isExpanded: true,
                     icon: const Icon(Icons.keyboard_arrow_down, color: Colors.black),
                     dropdownColor: Colors.white,
@@ -201,8 +201,8 @@ class _ProductAddPageState extends State<ProductAddPage> {
               // ---------------------------------------------------------
 
               CustomTextField(
-                label: "Deskripsi :",
-                hint: "Opsional",
+                label: "Description :",
+                hint: "Optional",
                 controller: _descController,
                 maxLines: 1,
               ),
@@ -215,13 +215,13 @@ class _ProductAddPageState extends State<ProductAddPage> {
                 isLoading: isLoading,
                 onPressed: () async {
                   if (_nameController.text.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Nama produk tidak boleh kosong")));
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Product name is required")));
                     return;
                   }
                   
                   // [BARU] Validasi Kategori
                   if (_selectedCategory == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Silakan pilih kategori")));
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please select a category")));
                     return;
                   }
 
@@ -238,9 +238,13 @@ class _ProductAddPageState extends State<ProductAddPage> {
 
                   if (success && context.mounted) {
                     Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Produk berhasil disimpan!")));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Product saved successfully!")),
+                    );
                   } else if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(productProvider.errorMessage ?? "Gagal menyimpan")));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(productProvider.errorMessage ?? "Failed to save")),
+                    );
                   }
                 },
               ),

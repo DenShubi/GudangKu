@@ -54,7 +54,7 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Gagal memilih gambar: $e')),
+          SnackBar(content: Text('Failed to pick image: $e')),
         );
       }
     }
@@ -119,7 +119,7 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          "Tap gambar untuk mengubah",
+                          "Tap image to change",
                           style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                         ),
                       ],
@@ -132,13 +132,13 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
 
               // Form Inputs
               CustomTextField(
-                label: "Nama Kategori :",
+                label: "Category Name :",
                 hint: "Contoh: Electronic",
                 controller: _nameController,
                 onChanged: (val) => setState(() {}),
               ),
               CustomTextField(
-                label: "Deskripsi :",
+                label: "Description :",
                 hint: "Contoh: Barang elektronik...",
                 controller: _descController,
                 maxLines: 3,
@@ -168,7 +168,7 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
                 onPressed: () async {
                   if (_nameController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Nama kategori wajib diisi")),
+                      const SnackBar(content: Text("Category name is required")),
                     );
                     return;
                   }
@@ -189,11 +189,11 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
                     if (success) {
                       Navigator.pop(context);
                       ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Kategori berhasil disimpan!")));
+                          const SnackBar(content: Text("Category saved successfully!")));
                     } else {
                        final errorMsg = Provider.of<CategoryProvider>(context, listen: false).errorMessage;
                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(errorMsg ?? "Gagal menyimpan")));
+                          SnackBar(content: Text(errorMsg ?? "Failed to save")));
                     }
                   }
                 },

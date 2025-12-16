@@ -38,7 +38,7 @@ class _ProductListPageState extends State<ProductListPage> {
               
               // Header
               const CustomHeader(
-                title: "Products",
+                title: "Product",
                 showBackButton: false,
               ),
               
@@ -60,7 +60,7 @@ class _ProductListPageState extends State<ProductListPage> {
                       
                       // Kosong
                       if (provider.products.isEmpty) {
-                        return const Center(child: Text("Belum ada produk, silakan tambah."));
+                        return const Center(child: Text("No products yet, please add one."));
                       }
                       
                       // Ada Data
@@ -73,8 +73,8 @@ class _ProductListPageState extends State<ProductListPage> {
                             onLongPress: () {
                               _showDeleteDialog(
                                 context,
-                                'Hapus Produk',
-                                'Apakah Anda yakin ingin menghapus "${product.name}"?',
+                                'Delete Product',
+                                'Are you sure you want to delete "${product.name}"?',
                                 () async {
                                   final success = await provider.deleteProduct(product.id);
                                   if (context.mounted) {
@@ -82,8 +82,8 @@ class _ProductListPageState extends State<ProductListPage> {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(success
-                                            ? 'Produk berhasil dihapus'
-                                            : 'Gagal menghapus produk'),
+                                            ? 'Product deleted successfully'
+                                            : 'Failed to delete product'),
                                       ),
                                     );
                                   }
@@ -170,12 +170,12 @@ class _ProductListPageState extends State<ProductListPage> {
           TextButton(
             onPressed: () => Navigator.pop(context),
             style: TextButton.styleFrom(foregroundColor: Colors.black),
-            child: const Text('Batal'),
+            child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: onConfirm,
             style: TextButton.styleFrom(foregroundColor: Colors.red),
-            child: const Text('Hapus'),
+            child: const Text('Delete'),
           ),
         ],
       ),

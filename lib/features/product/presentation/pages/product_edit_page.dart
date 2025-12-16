@@ -90,7 +90,7 @@ class _ProductEditPageState extends State<ProductEditScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Gagal memilih gambar: $e')),
+          SnackBar(content: Text('Failed to pick image: $e')),
         );
       }
     }
@@ -145,14 +145,14 @@ class _ProductEditPageState extends State<ProductEditScreen> {
               const SizedBox(height: 30),
 
               // --- FORM ---
-              CustomTextField(label: "Nama Produk :", controller: _nameController),
-              CustomTextField(label: "Harga :", controller: _priceController, isNumber: true),
-              CustomTextField(label: "Stok :", controller: _stockController, isNumber: true),
+              CustomTextField(label: "Product Name :", controller: _nameController),
+              CustomTextField(label: "Price :", controller: _priceController, isNumber: true),
+              CustomTextField(label: "Stock :", controller: _stockController, isNumber: true),
 
               // Dropdown Kategori
               const Padding(
                 padding: EdgeInsets.only(bottom: 8),
-                child: Text("Kategori :", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                child: Text("Category :", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               ),
               Container(
                 margin: const EdgeInsets.only(bottom: 16),
@@ -163,7 +163,7 @@ class _ProductEditPageState extends State<ProductEditScreen> {
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
                     value: _selectedCategory,
-                    hint: const Text("Pilih Kategori"),
+                    hint: const Text("Select Category"),
                     isExpanded: true,
                     items: categoryProvider.categories.map((cat) {
                       return DropdownMenuItem(value: cat.name, child: Text(cat.name));
@@ -173,7 +173,7 @@ class _ProductEditPageState extends State<ProductEditScreen> {
                 ),
               ),
 
-              CustomTextField(label: "Deskripsi :", controller: _descController),
+              CustomTextField(label: "Description :", controller: _descController),
 
               const SizedBox(height: 30),
 
@@ -210,7 +210,7 @@ class _ProductEditPageState extends State<ProductEditScreen> {
                     Navigator.pop(context); // Balik ke Detail
                     Navigator.pop(context); // Balik ke List (biar refresh full)
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Produk berhasil diupdate!")),
+                      const SnackBar(content: Text("Product updated successfully!")),
                     );
                   }
                 },

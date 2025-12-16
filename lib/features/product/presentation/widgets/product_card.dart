@@ -94,7 +94,7 @@ class ProductCard extends StatelessWidget {
                         child: Text(
                           name,
                           style: const TextStyle(
-                            fontSize: 16,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                           maxLines: 2,
@@ -114,7 +114,7 @@ class ProductCard extends StatelessWidget {
                         child: Text(
                           "$stock",
                           style: TextStyle(
-                            fontSize: 12,
+                            fontSize: 17,
                             fontWeight: FontWeight.bold,
                             color: _getStockTextColor(stock),
                           ),
@@ -130,7 +130,7 @@ class ProductCard extends StatelessWidget {
                   Text(
                     id, 
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 13,
                       color: Colors.grey[500],
                       fontWeight: FontWeight.w500,
                     ),
@@ -150,7 +150,7 @@ class ProductCard extends StatelessWidget {
                     child: Text(
                       category,
                       style: TextStyle(
-                        fontSize: 10,
+                        fontSize: 11,
                         color: Colors.grey[700],
                         fontWeight: FontWeight.w600
                       ),
@@ -163,7 +163,7 @@ class ProductCard extends StatelessWidget {
                   Text(
                     price,
                     style: const TextStyle(
-                      fontSize: 16,
+                      fontSize: 17,
                       fontWeight: FontWeight.bold,
                       color: Colors.black, 
                     ),

@@ -50,7 +50,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
                     }
 
                     if (provider.categories.isEmpty) {
-                      return const Center(child: Text("Belum ada kategori"));
+                      return const Center(child: Text("No categories yet."));
                     }
 
                     return GridView.builder(
@@ -67,8 +67,8 @@ class _CategoryListPageState extends State<CategoryListPage> {
                           onLongPress: () {
                             _showDeleteDialog(
                               context,
-                              'Hapus Kategori',
-                              'Apakah Anda yakin ingin menghapus "${category.name}"?\n\n⚠️ Perhatian: Semua produk yang memiliki kategori ini juga akan ikut terhapus!',
+                              'Delete Category',
+                              'Are you sure you want to delete "${category.name}"?\n\n⚠️ Warning: All products in this category will also be deleted!',
                               () async {
                                 final success = await provider.deleteCategory(category.id);
                                 if (context.mounted) {
@@ -76,8 +76,8 @@ class _CategoryListPageState extends State<CategoryListPage> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(success
-                                          ? 'Kategori berhasil dihapus'
-                                          : 'Gagal menghapus kategori'),
+                                          ? 'Category deleted successfully'
+                                          : 'Failed to delete category'),
                                     ),
                                   );
                                 }
@@ -152,12 +152,12 @@ class _CategoryListPageState extends State<CategoryListPage> {
           TextButton(
             onPressed: () => Navigator.pop(context),
             style: TextButton.styleFrom(foregroundColor: Colors.black),
-            child: const Text('Batal'),
+            child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: onConfirm,
             style: TextButton.styleFrom(foregroundColor: Colors.red),
-            child: const Text('Hapus'),
+            child: const Text('Delete'),
           ),
         ],
       ),

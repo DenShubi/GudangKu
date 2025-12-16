@@ -20,7 +20,7 @@ class ProductRemoteDataSource {
       final data = response as List<dynamic>;
       return data.map((json) => ProductModel.fromJson(json)).toList();
     } catch (e) {
-      throw Exception("Gagal mengambil produk: $e");
+      throw Exception("Failed to fetch products: $e");
     }
   }
 
@@ -30,7 +30,7 @@ class ProductRemoteDataSource {
       // Mengirim data JSON ke database
       await client.from('products').insert(product.toJson());
     } catch (e) {
-      throw Exception("Gagal menambah produk: $e");
+      throw Exception("Failed to add product: $e");
     }
   }
 
@@ -60,7 +60,7 @@ class ProductRemoteDataSource {
           .eq('id', product.id); // Filter where id = product.id
           
     } catch (e) {
-      throw Exception("Gagal update produk: $e");
+      throw Exception("Failed to update product: $e");
     }
   }
 }
