@@ -5,7 +5,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/constants/app_colors.dart';
 import 'features/auth/data/datasources/auth_remote_data_source.dart';
 import 'features/auth/data/repositories/auth_repository_impl.dart';
+import 'features/auth/data/repositories/profile_repository.dart';
 import 'features/auth/presentation/providers/auth_provider.dart';
+import 'features/auth/presentation/providers/profile_provider.dart';
 import 'features/auth/presentation/pages/sign_in_page.dart';
 import 'features/intro/presentation/pages/splash_page.dart';
 import 'features/product/data/datasources/product_remote_data_source.dart';
@@ -46,6 +48,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => AuthProvider(
             AuthRepositoryImpl(AuthRemoteDataSource(Supabase.instance.client)),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProfileProvider(
+            ProfileRepository(Supabase.instance.client),
           ),
         ),
         ChangeNotifierProvider(

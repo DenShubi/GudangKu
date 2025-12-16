@@ -1,8 +1,11 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../core/widgets/custom_header.dart';
 import '../providers/auth_provider.dart';
+import '../providers/profile_provider.dart';
 import 'sign_in_page.dart';
 
 class SettingPage extends StatefulWidget {
@@ -16,6 +19,7 @@ class _SettingPageState extends State<SettingPage> {
   String _email = "Loading...";
   String _userId = "...";
   String _initial = "U";
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
@@ -28,11 +32,48 @@ class _SettingPageState extends State<SettingPage> {
     if (user != null) {
       setState(() {
         _email = user.email ?? "User";
-        _userId = user.id.length > 6 ? user.id.substring(0, 6).toUpperCase() : user.id;
+        _userId = user.id;
         if (_email.isNotEmpty) {
           _initial = _email[0].toUpperCase();
         }
       });
+      
+      // Fetch profile data
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Provider.of<ProfileProvider>(context, listen: false)
+            .fetchProfile(user.id, _email);
+      });
+    }
+  }
+
+  Future<void> _pickAndUploadAvatar() async {
+    try {
+      final XFile? image = await _picker.pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 800,
+        maxHeight: 800,
+        imageQuality: 50,
+      );
+
+      if (image == null) return;
+
+      final profileProvider = Provider.of<ProfileProvider>(context, listen: false);
+      final success = await profileProvider.updateAvatar(_userId, File(image.path));
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(success ? 'Avatar updated successfully!' : 'Failed to update avatar'),
+            backgroundColor: success ? Colors.green : Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+        );
+      }
     }
   }
 
@@ -45,6 +86,7 @@ class _SettingPageState extends State<SettingPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
+            style: TextButton.styleFrom(foregroundColor: Colors.black),
             child: const Text("Cancel"),
           ),
           TextButton(
@@ -158,53 +200,111 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   Widget _buildProfileCard() {
-    return Row(
-      children: [
-        Container(
-          width: 70,
-          height: 70,
-          decoration: BoxDecoration(
-            color: Colors.grey[300],
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Center(
-            child: Text(
-              _initial,
-              style: const TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
+    return Consumer<ProfileProvider>(
+      builder: (context, profileProvider, child) {
+        final avatarUrl = profileProvider.avatarUrl;
+        final shortUserId = _userId.length > 6 ? _userId.substring(0, 6).toUpperCase() : _userId;
+        
+        return Row(
+          children: [
+            GestureDetector(
+              onTap: _pickAndUploadAvatar,
+              child: Stack(
+                children: [
+                  Container(
+                    width: 70,
+                    height: 70,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(12),
+                      image: avatarUrl != null && avatarUrl.isNotEmpty
+                          ? DecorationImage(
+                              image: NetworkImage(avatarUrl),
+                              fit: BoxFit.cover,
+                            )
+                          : null,
+                    ),
+                    child: avatarUrl == null || avatarUrl.isEmpty
+                        ? Center(
+                            child: Text(
+                              _initial,
+                              style: const TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                          )
+                        : null,
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: Container(
+                      width: 24,
+                      height: 24,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: const Icon(
+                        Icons.camera_alt,
+                        size: 14,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  if (profileProvider.isLoading)
+                    Container(
+                      width: 70,
+                      height: 70,
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.5),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Center(
+                        child: SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
               ),
             ),
-          ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                _email,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _email,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    "ID : $shortUserId",
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 4),
-              Text(
-                "ID : $_userId",
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                ),
-              ),
-            ],
-          ),
-        ),
-        const Icon(Icons.arrow_forward_ios, size: 20, color: Colors.black),
-      ],
+            ),
+            const Icon(Icons.arrow_forward_ios, size: 20, color: Colors.black),
+          ],
+        );
+      },
     );
   }
 

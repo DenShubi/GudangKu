@@ -28,7 +28,6 @@ class AuthRemoteDataSource {
   }
 
   // Fungsi Sign Up (Daftar Baru)
-  // Fungsi Sign Up (Daftar Baru)
   Future<String> signUp(String email, String password, String name) async {
     try {
       final response = await supabase.auth.signUp(

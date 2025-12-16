@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:intl/intl.dart';
 
+import '../../../auth/presentation/providers/profile_provider.dart';
 import '../../../product/presentation/providers/product_provider.dart';
 import '../../../product/presentation/widgets/product_card.dart';
 import '../../../product/presentation/pages/product_detail_page.dart';
@@ -32,6 +33,10 @@ class _HomePageState extends State<HomePage> {
         _username = user.email!.split('@')[0];
         _username = _username[0].toUpperCase() + _username.substring(1);
       });
+      
+      // Fetch profile for avatar
+      Provider.of<ProfileProvider>(context, listen: false)
+          .fetchProfile(user.id, user.email!);
     }
   }
 
@@ -47,13 +52,36 @@ class _HomePageState extends State<HomePage> {
             children: [
               Row(
                 children: [
-                  Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      shape: BoxShape.circle,
-                    ),
+                  Consumer<ProfileProvider>(
+                    builder: (context, profileProvider, _) {
+                      final avatarUrl = profileProvider.avatarUrl;
+                      return Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          shape: BoxShape.circle,
+                          image: avatarUrl != null && avatarUrl.isNotEmpty
+                              ? DecorationImage(
+                                  image: NetworkImage(avatarUrl),
+                                  fit: BoxFit.cover,
+                                )
+                              : null,
+                        ),
+                        child: avatarUrl == null || avatarUrl.isEmpty
+                            ? Center(
+                                child: Text(
+                                  _username.isNotEmpty ? _username[0].toUpperCase() : 'U',
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                              )
+                            : null,
+                      );
+                    },
                   ),
                   const SizedBox(width: 15),
                   Column(
