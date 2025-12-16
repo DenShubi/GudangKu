@@ -109,4 +109,13 @@ class SupplierRepository {
       throw Exception('Gagal update supplier: $e');
     }
   }
+
+  /// Deletes a supplier from the database.
+  Future<void> deleteSupplier(String id) async {
+    try {
+      await _supabase.from('suppliers').delete().eq('id', id);
+    } catch (e) {
+      throw Exception('Gagal menghapus supplier: $e');
+    }
+  }
 }

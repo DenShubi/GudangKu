@@ -96,4 +96,22 @@ class CategoryProvider extends ChangeNotifier {
       return false;
     }
   }
+
+  /// Deletes a category by ID.
+  Future<bool> deleteCategory(String id) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      await _repository.deleteCategory(id);
+      await fetchCategories();
+      return true;
+    } catch (e) {
+      _errorMessage = e.toString();
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    }
+  }
 }

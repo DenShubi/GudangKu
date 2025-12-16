@@ -63,7 +63,28 @@ class _CategoryListPageState extends State<CategoryListPage> {
                       ),
                       itemBuilder: (context, index) {
                         final category = provider.categories[index];
-                        return CategoryCard(
+                        return GestureDetector(
+                          onLongPress: () {
+                            _showDeleteDialog(
+                              context,
+                              'Hapus Kategori',
+                              'Apakah Anda yakin ingin menghapus "${category.name}"?\n\n⚠️ Perhatian: Semua produk yang memiliki kategori ini juga akan ikut terhapus!',
+                              () async {
+                                final success = await provider.deleteCategory(category.id);
+                                if (context.mounted) {
+                                  Navigator.pop(context);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(success
+                                          ? 'Kategori berhasil dihapus'
+                                          : 'Gagal menghapus kategori'),
+                                    ),
+                                  );
+                                }
+                              },
+                            );
+                          },
+                          child: CategoryCard(
                           title: category.name,
                           color: category.color,
                           imageUrl: category.imageUrl,
@@ -82,6 +103,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
                               ),
                             );
                           },
+                        ),
                         );
                       },
                     );
@@ -111,6 +133,33 @@ class _CategoryListPageState extends State<CategoryListPage> {
             child: const Icon(Icons.add, color: Colors.white, size: 40),
           ),
         ),
+      ),
+    );
+  }
+
+  void _showDeleteDialog(
+    BuildContext context,
+    String title,
+    String message,
+    VoidCallback onConfirm,
+  ) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            style: TextButton.styleFrom(foregroundColor: Colors.black),
+            child: const Text('Batal'),
+          ),
+          TextButton(
+            onPressed: onConfirm,
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            child: const Text('Hapus'),
+          ),
+        ],
       ),
     );
   }

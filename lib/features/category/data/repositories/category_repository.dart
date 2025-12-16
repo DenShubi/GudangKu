@@ -88,4 +88,28 @@ class CategoryRepository {
       throw Exception('Gagal update kategori: $e');
     }
   }
+
+  /// Deletes a category and all related products from the database.
+  Future<void> deleteCategory(String id) async {
+    try {
+      // 1. Ambil nama kategori terlebih dahulu
+      final categoryResponse = await _supabase
+          .from('categories')
+          .select('name')
+          .eq('id', id)
+          .maybeSingle();
+      
+      if (categoryResponse != null) {
+        final categoryName = categoryResponse['name'] as String;
+        
+        // 2. Hapus semua produk yang memiliki kategori ini
+        await _supabase.from('products').delete().eq('category', categoryName);
+      }
+      
+      // 3. Hapus kategori
+      await _supabase.from('categories').delete().eq('id', id);
+    } catch (e) {
+      throw Exception('Gagal menghapus kategori: $e');
+    }
+  }
 }

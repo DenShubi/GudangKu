@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../main_screen.dart';
+import '../../../auth/presentation/pages/sign_in_page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -15,12 +17,28 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 3), () {
+    Timer(const Duration(seconds: 2), () {
+      _checkAuthAndNavigate();
+    });
+  }
+
+  void _checkAuthAndNavigate() {
+    // Cek apakah user sudah login
+    final session = Supabase.instance.client.auth.currentSession;
+    
+    if (session != null) {
+      // User sudah login -> ke MainScreen
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const MainScreen()),
       );
-    });
+    } else {
+      // User belum login -> ke SignInPage
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const SignInPage()),
+      );
+    }
   }
 
   @override

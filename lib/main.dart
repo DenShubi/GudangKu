@@ -7,6 +7,7 @@ import 'features/auth/data/datasources/auth_remote_data_source.dart';
 import 'features/auth/data/repositories/auth_repository_impl.dart';
 import 'features/auth/presentation/providers/auth_provider.dart';
 import 'features/auth/presentation/pages/sign_in_page.dart';
+import 'features/intro/presentation/pages/splash_page.dart';
 import 'features/product/data/datasources/product_remote_data_source.dart';
 import 'features/product/data/repositories/product_repository_impl.dart';
 import 'features/product/presentation/providers/product_provider.dart';
@@ -97,7 +98,7 @@ class MyApp extends StatelessWidget {
         // Halaman Awal
         // Logikanya: Jika user sudah login -> MainScreen, jika belum -> SignInPage
         // Untuk sementara diarahkan ke SignInPage sesuai kode Anda
-        home: const SignInPage(),
+        home: const SplashPage(),
       ),
     );
   }

@@ -57,7 +57,28 @@ class _SupplierListPageState extends State<SupplierListPage> {
                       itemCount: provider.suppliers.length,
                       itemBuilder: (context, index) {
                         final supplier = provider.suppliers[index];
-                        return SupplierCard(
+                        return GestureDetector(
+                          onLongPress: () {
+                            _showDeleteDialog(
+                              context,
+                              'Hapus Supplier',
+                              'Apakah Anda yakin ingin menghapus "${supplier.name}"?',
+                              () async {
+                                final success = await provider.deleteSupplier(supplier.id);
+                                if (context.mounted) {
+                                  Navigator.pop(context);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(success
+                                          ? 'Supplier berhasil dihapus'
+                                          : 'Gagal menghapus supplier'),
+                                    ),
+                                  );
+                                }
+                              },
+                            );
+                          },
+                          child: SupplierCard(
                           name: supplier.name,
                           phone: supplier.phone,
                           address: supplier.address,
@@ -80,6 +101,7 @@ class _SupplierListPageState extends State<SupplierListPage> {
                               ),
                             );
                           },
+                        ),
                         );
                       },
                     );
@@ -110,6 +132,33 @@ class _SupplierListPageState extends State<SupplierListPage> {
             child: const Icon(Icons.add, color: Colors.white, size: 40),
           ),
         ),
+      ),
+    );
+  }
+
+  void _showDeleteDialog(
+    BuildContext context,
+    String title,
+    String message,
+    VoidCallback onConfirm,
+  ) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            style: TextButton.styleFrom(foregroundColor: Colors.black),
+            child: const Text('Batal'),
+          ),
+          TextButton(
+            onPressed: onConfirm,
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            child: const Text('Hapus'),
+          ),
+        ],
       ),
     );
   }

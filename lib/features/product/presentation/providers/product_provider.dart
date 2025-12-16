@@ -141,4 +141,23 @@ class ProductProvider extends ChangeNotifier {
       return false; // Gagal
     }
   }
+
+  /// Deletes a product by ID.
+  Future<bool> deleteProduct(String id) async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      await repository.deleteProduct(id);
+      await fetchProducts();
+      _isLoading = false;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _isLoading = false;
+      _errorMessage = e.toString();
+      notifyListeners();
+      return false;
+    }
+  }
 }

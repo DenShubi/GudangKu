@@ -49,4 +49,10 @@ class ProductRepositoryImpl {
   }) async {
     return updateProduct(product: product, newImageFile: newImageFile);
   }
+
+  /// Deletes a product from the database.
+  Future<void> deleteProduct(String id) async {
+    final client = Supabase.instance.client;
+    await client.from('products').delete().eq('id', id);
+  }
 }

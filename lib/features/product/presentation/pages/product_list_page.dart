@@ -69,7 +69,28 @@ class _ProductListPageState extends State<ProductListPage> {
                         itemBuilder: (context, index) {
                           final product = provider.products[index];
                           
-                          return ProductCard(
+                          return GestureDetector(
+                            onLongPress: () {
+                              _showDeleteDialog(
+                                context,
+                                'Hapus Produk',
+                                'Apakah Anda yakin ingin menghapus "${product.name}"?',
+                                () async {
+                                  final success = await provider.deleteProduct(product.id);
+                                  if (context.mounted) {
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(success
+                                            ? 'Produk berhasil dihapus'
+                                            : 'Gagal menghapus produk'),
+                                      ),
+                                    );
+                                  }
+                                },
+                              );
+                            },
+                            child: ProductCard(
                             name: product.name,
                             // Tampilkan ID pendek di Card (biar rapi)
                             id: product.id.length > 8 ? product.id.substring(0, 8) : product.id,
@@ -97,6 +118,7 @@ class _ProductListPageState extends State<ProductListPage> {
                                 ),
                               );
                             },
+                          ),
                           );
                         },
                       );
@@ -123,6 +145,33 @@ class _ProductListPageState extends State<ProductListPage> {
             child: const Icon(Icons.add, color: Colors.white, size: 40),
           ),
         ),
+      ),
+    );
+  }
+
+  void _showDeleteDialog(
+    BuildContext context,
+    String title,
+    String message,
+    VoidCallback onConfirm,
+  ) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            style: TextButton.styleFrom(foregroundColor: Colors.black),
+            child: const Text('Batal'),
+          ),
+          TextButton(
+            onPressed: onConfirm,
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            child: const Text('Hapus'),
+          ),
+        ],
       ),
     );
   }

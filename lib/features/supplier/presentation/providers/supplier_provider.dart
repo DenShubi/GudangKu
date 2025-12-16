@@ -105,4 +105,22 @@ class SupplierProvider extends ChangeNotifier {
       return false; // Gagal
     }
   }
+
+  /// Deletes a supplier by ID.
+  Future<bool> deleteSupplier(String id) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      await _repository.deleteSupplier(id);
+      await fetchSuppliers();
+      return true;
+    } catch (e) {
+      _errorMessage = e.toString();
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    }
+  }
 }
