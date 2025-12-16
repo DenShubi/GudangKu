@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/category_model.dart';
 
@@ -24,17 +25,67 @@ class CategoryRepository {
     required String name,
     required String description,
     required bool isActive,
-    String hexColor = '0xFFE5E5E5', // Default warna
+    String hexColor = '0xFFE5E5E5',
+    File? imageFile,
   }) async {
     try {
+      String? imageUrl;
+
+      // Upload gambar jika ada
+      if (imageFile != null) {
+        final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+        await _supabase.storage.from('categories').upload(
+              fileName,
+              imageFile,
+              fileOptions: const FileOptions(contentType: 'image/jpeg'),
+            );
+        imageUrl = _supabase.storage.from('categories').getPublicUrl(fileName);
+      }
+
       await _supabase.from('categories').insert({
         'name': name,
         'description': description,
         'is_active': isActive,
         'hex_color': hexColor,
+        'image_url': imageUrl,
       });
     } catch (e) {
       throw Exception('Gagal menambah kategori: $e');
+    }
+  }
+
+  Future<void> updateCategory({
+    required String id,
+    required String name,
+    required String description,
+    required bool isActive,
+    String hexColor = '0xFFE5E5E5',
+    String? oldImageUrl,
+    File? newImageFile,
+  }) async {
+    try {
+      String? imageUrl = oldImageUrl;
+
+      // Upload gambar baru jika ada
+      if (newImageFile != null) {
+        final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+        await _supabase.storage.from('categories').upload(
+              fileName,
+              newImageFile,
+              fileOptions: const FileOptions(contentType: 'image/jpeg'),
+            );
+        imageUrl = _supabase.storage.from('categories').getPublicUrl(fileName);
+      }
+
+      await _supabase.from('categories').update({
+        'name': name,
+        'description': description,
+        'is_active': isActive,
+        'hex_color': hexColor,
+        'image_url': imageUrl,
+      }).eq('id', id);
+    } catch (e) {
+      throw Exception('Gagal update kategori: $e');
     }
   }
 }

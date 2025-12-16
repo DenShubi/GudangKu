@@ -65,4 +65,44 @@ class SupplierRepository {
       throw Exception('Gagal menambah supplier: $e');
     }
   }
+
+  // 3. Update Data Supplier (Dengan Gambar)
+  Future<void> updateSupplier({
+    required String id,
+    required String name,
+    required String contactPerson,
+    required String phone,
+    required String address,
+    required String notes,
+    String? oldImageUrl,
+    File? newImageFile,
+  }) async {
+    try {
+      String? imageUrl = oldImageUrl;
+
+      // Upload gambar baru jika ada
+      if (newImageFile != null) {
+        final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+        await _supabase.storage.from('suppliers').upload(
+              fileName,
+              newImageFile,
+              fileOptions: const FileOptions(contentType: 'image/jpeg'),
+            );
+        imageUrl = _supabase.storage.from('suppliers').getPublicUrl(fileName);
+      }
+
+      // Update data di tabel
+      await _supabase.from('suppliers').update({
+        'name': name,
+        'contact_person': contactPerson,
+        'phone': phone,
+        'address': address,
+        'notes': notes,
+        'image_url': imageUrl,
+      }).eq('id', id);
+
+    } catch (e) {
+      throw Exception('Gagal update supplier: $e');
+    }
+  }
 }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/widgets/custom_header.dart';
+import 'supplier_edit_page.dart';
 
 class SupplierDetailPage extends StatelessWidget {
+  final String id;
   final String name;
   final String address;
   final String email;
@@ -13,6 +15,7 @@ class SupplierDetailPage extends StatelessWidget {
 
   const SupplierDetailPage({
     super.key,
+    required this.id,
     required this.name,
     required this.address,
     required this.email,
@@ -117,15 +120,33 @@ class SupplierDetailPage extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: SizedBox(
-        width: 70,
-        height: 70,
-        child: FloatingActionButton(
-          onPressed: () {},
-          backgroundColor: AppColors.creamBackground,
-          shape: const CircleBorder(),
-          elevation: 0,
-          child: const Icon(Icons.add, color: Colors.white, size: 40),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 20, right: 10),
+        child: SizedBox(
+          width: 70,
+          height: 70,
+          child: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SupplierEditPage(
+                    id: id,
+                    currentName: name,
+                    currentContactPerson: contactPerson,
+                    currentPhone: phone,
+                    currentAddress: address,
+                    currentNotes: notes,
+                    currentImageUrl: imageUrl,
+                  ),
+                ),
+              );
+            },
+            backgroundColor: AppColors.creamBackground,
+            shape: const CircleBorder(),
+            elevation: 0,
+            child: const Icon(Icons.edit, color: Colors.white, size: 30),
+          ),
         ),
       ),
     );

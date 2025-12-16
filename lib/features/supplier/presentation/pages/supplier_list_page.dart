@@ -68,6 +68,7 @@ class _SupplierListPageState extends State<SupplierListPage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => SupplierDetailPage(
+                                  id: supplier.id,
                                   name: supplier.name,
                                   address: supplier.address,
                                   email: "-",

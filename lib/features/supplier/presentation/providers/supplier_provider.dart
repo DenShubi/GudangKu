@@ -63,4 +63,42 @@ class SupplierProvider extends ChangeNotifier {
       return false; // Gagal
     }
   }
+
+  Future<bool> updateSupplier({
+    required String id,
+    required String name,
+    required String contactPerson,
+    required String phone,
+    required String address,
+    required String notes,
+    String? oldImageUrl,
+    File? newImageFile,
+  }) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      await _repository.updateSupplier(
+        id: id,
+        name: name,
+        contactPerson: contactPerson,
+        phone: phone,
+        address: address,
+        notes: notes,
+        oldImageUrl: oldImageUrl,
+        newImageFile: newImageFile,
+      );
+
+      // Refresh list setelah berhasil update
+      await fetchSuppliers();
+
+      return true; // Berhasil
+    } catch (e) {
+      _errorMessage = e.toString();
+      _isLoading = false;
+      notifyListeners();
+      return false; // Gagal
+    }
+  }
 }
