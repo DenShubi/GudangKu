@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:intl/intl.dart';
 
 import '../../../product/presentation/providers/product_provider.dart';
 import '../../../product/presentation/widgets/product_card.dart';
@@ -96,26 +97,37 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          "Today",
-                          style: TextStyle(
+                        Text(
+                          "Today, ${DateFormat('d MMMM yyyy').format(DateTime.now())}",
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(height: 20),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            _buildSummaryItem(totalCalculated.toString(), "Total"),
+                            Expanded(
+                              child: _buildSummaryItem(totalCalculated.toString(), "Total"),
+                            ),
                             
                             Container(width: 1, height: 40, color: Colors.black54),
                             
-                            _buildSummaryItem(currentStock.toString(), "Stock In"),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 20),
+                                child: _buildSummaryItem(currentStock.toString(), "Stock In"),
+                              ),
+                            ),
                             
                             Container(width: 1, height: 40, color: Colors.black54),
                             
-                            _buildSummaryItem(stockOut.toString(), "Stock Out"),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 20),
+                                child: _buildSummaryItem(stockOut.toString(), "Stock Out"),
+                              ),
+                            ),
                           ],
                         ),
                       ],
