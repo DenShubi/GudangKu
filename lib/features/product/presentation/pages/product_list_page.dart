@@ -132,16 +132,22 @@ class _ProductListPageState extends State<ProductListPage> {
       
       // Floating Action Button
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 100, right: 10),
+        padding: const EdgeInsets.only(bottom: 120, right: 10),
         child: SizedBox(
           width: 70,
           height: 70,
           child: FloatingActionButton(
             onPressed: () {
-               Navigator.push(context, MaterialPageRoute(builder: (context) => const ProductAddPage()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ProductAddPage(),
+                ),
+              );
             },
             backgroundColor: AppColors.creamBackground,
             shape: const CircleBorder(),
+            elevation: 4,
             child: const Icon(Icons.add, color: Colors.white, size: 40),
           ),
         ),

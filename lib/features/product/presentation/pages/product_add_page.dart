@@ -155,28 +155,38 @@ class _ProductAddPageState extends State<ProductAddPage> {
 
               // [UPDATE] KATEGORI DROPDOWN (Ganti CustomTextField Kategori)
               const Padding(
-                padding: EdgeInsets.only(bottom: 8),
+                padding: EdgeInsets.only(bottom: 15),
                 child: Text(
                   "Kategori :",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(bottom: 16),
+                margin: const EdgeInsets.only(bottom: 20),
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 decoration: BoxDecoration(
-                  color: Colors.grey[100], // Samakan warna dengan CustomTextField
                   borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.black, width: 1.5),
                 ),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
                     value: _selectedCategory,
-                    hint: const Text("Pilih Kategori", style: TextStyle(color: Colors.grey)),
+                    hint: const Text("Pilih Kategori", style: TextStyle(color: Colors.black54)),
                     isExpanded: true,
-                    icon: const Icon(Icons.keyboard_arrow_down),
+                    icon: const Icon(Icons.keyboard_arrow_down, color: Colors.black),
+                    dropdownColor: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
                     items: categoryProvider.categories.map((category) {
                       return DropdownMenuItem<String>(
-                        value: category.name, // Kita simpan Namanya
+                        value: category.name,
                         child: Text(category.name),
                       );
                     }).toList(),

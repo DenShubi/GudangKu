@@ -111,7 +111,7 @@ class _HomePageState extends State<HomePage> {
                             
                             Container(width: 1, height: 40, color: Colors.black54),
                             
-                            _buildSummaryItem(totalCalculated.toString(), "Stock In"),
+                            _buildSummaryItem(currentStock.toString(), "Stock In"),
                             
                             Container(width: 1, height: 40, color: Colors.black54),
                             

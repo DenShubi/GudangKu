@@ -116,7 +116,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
       ),
       // FAB tetap sama
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 80, right: 10),
+        padding: const EdgeInsets.only(bottom: 120, right: 10),
         child: SizedBox(
           width: 70,
           height: 70,

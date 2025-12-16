@@ -113,7 +113,7 @@ class _SupplierListPageState extends State<SupplierListPage> {
         ),
       ),
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 80, right: 10),
+        padding: const EdgeInsets.only(bottom: 120, right: 10),
         child: SizedBox(
           width: 70,
           height: 70,
