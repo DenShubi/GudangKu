@@ -1,5 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/product_model.dart';
+import 'dart:io';
+
 
 class ProductRemoteDataSource {
   final SupabaseClient client;
@@ -32,5 +34,33 @@ class ProductRemoteDataSource {
     }
   }
 
-  // [FITUR EDIT SUDAH DIHAPUS SESUAI PERMINTAAN]
+  Future<void> updateProduct({
+    required ProductModel product,
+    File? newImageFile,
+  }) async {
+    try {
+      Map<String, dynamic> dataToUpdate = product.toJson();
+
+      // 1. Jika ada gambar baru, upload dulu
+      if (newImageFile != null) {
+        final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+        const bucketName = 'product-images';
+
+        await client.storage.from(bucketName).upload(fileName, newImageFile);
+        final newImageUrl = client.storage.from(bucketName).getPublicUrl(fileName);
+        
+        // Update field image_url dengan URL baru
+        dataToUpdate['image_url'] = newImageUrl;
+      }
+
+      // 2. Update data di tabel berdasarkan ID
+      await client
+          .from('products')
+          .update(dataToUpdate)
+          .eq('id', product.id); // Filter where id = product.id
+          
+    } catch (e) {
+      throw Exception("Gagal update produk: $e");
+    }
+  }
 }

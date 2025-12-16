@@ -9,6 +9,7 @@ class SupplierDetailPage extends StatelessWidget {
   final String phone;
   final String contactPerson;
   final String notes;
+  final String? imageUrl;
 
   const SupplierDetailPage({
     super.key,
@@ -18,6 +19,7 @@ class SupplierDetailPage extends StatelessWidget {
     required this.phone,
     required this.contactPerson,
     required this.notes,
+    this.imageUrl,
   });
 
   @override
@@ -45,19 +47,27 @@ class SupplierDetailPage extends StatelessWidget {
                     width: 100,
                     height: 100,
                     decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(20),
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(20),
+                      image: (imageUrl != null && imageUrl!.isNotEmpty)
+                          ? DecorationImage(
+                              image: NetworkImage(imageUrl!),
+                              fit: BoxFit.cover,
+                            )
+                          : null,
                     ),
-                    child: Center(
-                      child: Text(
-                        initial,
-                        style: const TextStyle(
-                          fontSize: 48,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
+                    child: (imageUrl != null && imageUrl!.isNotEmpty)
+                        ? null
+                        : Center(
+                            child: Text(
+                              initial,
+                              style: const TextStyle(
+                                fontSize: 48,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
                   ),
                   
                   const SizedBox(width: 20),

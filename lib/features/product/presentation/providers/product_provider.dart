@@ -59,9 +59,7 @@ class ProductProvider extends ChangeNotifier {
       // --- LOGIKA UPLOAD GAMBAR (Untuk Add) ---
       if (imageFile != null) {
         final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
-        // Pastikan nama bucket di Supabase Anda adalah 'products' atau 'product-images'
-        // Sesuaikan string di bawah ini dengan nama bucket di dashboard Supabase
-        const bucketName = 'products'; 
+        const bucketName = 'product-images';
         
         await supabase.storage.from(bucketName).upload(fileName, imageFile);
         imageUrl = supabase.storage.from(bucketName).getPublicUrl(fileName);
@@ -92,6 +90,55 @@ class ProductProvider extends ChangeNotifier {
       _errorMessage = e.toString();
       notifyListeners();
       return false;
+    }
+  }
+
+  Future<bool> updateProduct({
+    required String id,
+    required String name,
+    required String price,
+    required String stock,
+    required String category,
+    required String description,
+    required String? oldImageUrl, // URL lama (jika tidak ganti gambar)
+    File? newImageFile,           // File baru (jika ganti gambar)
+  }) async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      final doublePrice = double.tryParse(price) ?? 0.0;
+      final intStock = int.tryParse(stock) ?? 0;
+
+      // Kita buat objek model sementara.
+      // Note: imageUrl diisi oldImageUrl dulu. 
+      // Jika ada newImageFile, DataSource akan menimpanya dengan URL baru.
+      final productToUpdate = ProductModel(
+        id: id,
+        name: name,
+        price: doublePrice,
+        stock: intStock,
+        category: category,
+        description: description,
+        imageUrl: oldImageUrl, 
+      );
+
+      await repository.updateProduct(
+        product: productToUpdate, 
+        newImageFile: newImageFile
+      );
+
+      // Refresh data agar tampilan list terupdate otomatis
+      await fetchProducts(); 
+
+      _isLoading = false;
+      notifyListeners();
+      return true; // Berhasil
+    } catch (e) {
+      _isLoading = false;
+      _errorMessage = e.toString();
+      notifyListeners();
+      return false; // Gagal
     }
   }
 }

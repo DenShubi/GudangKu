@@ -1,5 +1,8 @@
+import 'package:gudangku/features/product/presentation/pages/product_edit_page.dart' as product_pages;
 import 'package:flutter/material.dart';
 import '../../../../core/widgets/custom_header.dart';
+import '../../../../core/constants/app_colors.dart';
+
 
 class ProductDetailPage extends StatelessWidget {
   final String id;
@@ -95,6 +98,35 @@ class ProductDetailPage extends StatelessWidget {
         ),
       ),
       // [FLOATING ACTION BUTTON DIHAPUS DARI SINI]
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 20, right: 10),
+        child: SizedBox(
+          width: 70,
+          height: 70,
+          child: FloatingActionButton(
+            onPressed: () {
+              // Navigasi ke Halaman Edit dengan membawa data saat ini
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => product_pages.ProductEditScreen(
+                    id: id,
+                    currentName: name,
+                    currentPrice: price, 
+                    currentStock: stock,
+                    currentCategory: category,
+                    currentDescription: description,
+                    currentImageUrl: imageUrl,
+                  ),
+                ),
+              );
+            },
+            backgroundColor: AppColors.creamBackground, // Sesuaikan warna
+            shape: const CircleBorder(),
+            child: const Icon(Icons.edit, color: Colors.white, size: 30),
+          ),
+        ),
+      ),
     );
   }
 

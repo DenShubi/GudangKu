@@ -73,7 +73,8 @@ class _SupplierListPageState extends State<SupplierListPage> {
                                   email: "-",
                                   phone: supplier.phone,
                                   contactPerson: supplier.contactPerson,
-                                  notes: supplier.notes, // Pastikan field ini sesuai model ('note' atau 'notes')
+                                  notes: supplier.notes,
+                                  imageUrl: supplier.imageUrl,
                                 ),
                               ),
                             );
