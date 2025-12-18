@@ -20,11 +20,11 @@ class ProductCard extends StatelessWidget {
     this.imageUrl,
   });
 
-  // Helper untuk menentukan warna background kotak stok
+
   Color _getStockColor(int stock) {
-    if (stock > 50) {
-      return const Color(0xFFA3E635); 
-    } else if (stock >= 10) {
+    if (stock > 100) {
+      return const Color(0xFFA3E635);
+    } else if (stock >= 30) {
       return const Color(0xFFFDE047); 
     } else {
       return const Color(0xFFF87171); 
