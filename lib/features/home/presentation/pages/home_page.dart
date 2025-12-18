@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       const Text(
                         "Hello",
-                        style: TextStyle(color: Colors.grey, fontSize: 14),
+                        style: TextStyle(color: Colors.grey, fontSize: 17),
                       ),
                       Text(
                         _username,
@@ -127,7 +127,7 @@ class _HomePageState extends State<HomePage> {
                         Text(
                           "Today, ${DateFormat('d MMMM yyyy').format(DateTime.now())}",
                           style: const TextStyle(
-                            fontSize: 18,
+                            fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -166,7 +166,7 @@ class _HomePageState extends State<HomePage> {
 
               const Text(
                 "Items",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 15),
 
