@@ -45,7 +45,8 @@ class ProductProvider extends ChangeNotifier {
     String name,
     String price,
     String stock,
-    String category,
+    String? categoryId,  // Diubah ke ID
+    String? supplierId,  // Tambah supplier ID
     String desc,
     File? imageFile,
   ) async {
@@ -73,9 +74,10 @@ class ProductProvider extends ChangeNotifier {
         name: name,
         price: doublePrice,
         stock: intStock,
-        category: category,
         description: desc,
         imageUrl: imageUrl,
+        categoryId: categoryId,
+        supplierId: supplierId,
       );
 
       await repository.addProduct(newProduct);
@@ -97,7 +99,8 @@ class ProductProvider extends ChangeNotifier {
     required String name,
     required String price,
     required String stock,
-    required String category,
+    required String? categoryId,
+    required String? supplierId,
     required String description,
     required String? oldImageUrl, 
     File? newImageFile,           
@@ -114,9 +117,10 @@ class ProductProvider extends ChangeNotifier {
         name: name,
         price: doublePrice,
         stock: intStock,
-        category: category,
         description: description,
-        imageUrl: oldImageUrl, 
+        imageUrl: oldImageUrl,
+        categoryId: categoryId,
+        supplierId: supplierId,
       );
 
       await repository.updateProduct(

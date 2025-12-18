@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../../../category/presentation/providers/category_provider.dart';
+import '../../../supplier/presentation/providers/supplier_provider.dart';
+import '../../../category/data/models/category_model.dart';
+import '../../../supplier/data/models/supplier_model.dart';
 import '../providers/product_provider.dart';
 import 'package:gudangku/features/category/presentation/providers/providers.dart'; 
 import '../../../../core/widgets/custom_header.dart';
@@ -23,13 +26,17 @@ class _ProductAddPageState extends State<ProductAddPage> {
   final TextEditingController _stockController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
 
-  String? _selectedCategory; 
+  // Simpan object kategori & supplier untuk mendapatkan ID-nya
+  CategoryModel? _selectedCategory;
+  SupplierModel? _selectedSupplier;
 
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        Provider.of<CategoryProvider>(context, listen: false).fetchCategories());
+    Future.microtask(() {
+      Provider.of<CategoryProvider>(context, listen: false).fetchCategories();
+      Provider.of<SupplierProvider>(context, listen: false).fetchSuppliers();
+    });
   }
 
   @override
@@ -68,8 +75,9 @@ class _ProductAddPageState extends State<ProductAddPage> {
   @override
   Widget build(BuildContext context) {
     final isLoading = context.watch<ProductProvider>().isLoading;
-    // [BARU] Ambil list kategori dari provider
+    // Ambil list kategori dan supplier dari provider
     final categoryProvider = context.watch<CategoryProvider>();
+    final supplierProvider = context.watch<SupplierProvider>();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -149,7 +157,7 @@ class _ProductAddPageState extends State<ProductAddPage> {
                 isNumber: true,
               ),
 
-              // [UPDATE] KATEGORI DROPDOWN (Ganti CustomTextField Kategori)
+              // [UPDATE] KATEGORI DROPDOWN (Menggunakan Object untuk menyimpan ID)
               const Padding(
                 padding: EdgeInsets.only(bottom: 15),
                 child: Text(
@@ -169,7 +177,7 @@ class _ProductAddPageState extends State<ProductAddPage> {
                   border: Border.all(color: Colors.black, width: 1.5),
                 ),
                 child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
+                  child: DropdownButton<CategoryModel>(
                     value: _selectedCategory,
                     hint: const Text("Select Category", style: TextStyle(color: Colors.black54)),
                     isExpanded: true,
@@ -181,14 +189,60 @@ class _ProductAddPageState extends State<ProductAddPage> {
                       color: Colors.black,
                     ),
                     items: categoryProvider.categories.map((category) {
-                      return DropdownMenuItem<String>(
-                        value: category.name,
+                      return DropdownMenuItem<CategoryModel>(
+                        value: category,
                         child: Text(category.name),
                       );
                     }).toList(),
                     onChanged: (value) {
                       setState(() {
                         _selectedCategory = value;
+                      });
+                    },
+                  ),
+                ),
+              ),
+
+              // SUPPLIER DROPDOWN
+              const Padding(
+                padding: EdgeInsets.only(bottom: 15),
+                child: Text(
+                  "Supplier :",
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(bottom: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.black, width: 1.5),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<SupplierModel>(
+                    value: _selectedSupplier,
+                    hint: const Text("Select Supplier (Optional)", style: TextStyle(color: Colors.black54)),
+                    isExpanded: true,
+                    icon: const Icon(Icons.keyboard_arrow_down, color: Colors.black),
+                    dropdownColor: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
+                    items: supplierProvider.suppliers.map((supplier) {
+                      return DropdownMenuItem<SupplierModel>(
+                        value: supplier,
+                        child: Text(supplier.name),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedSupplier = value;
                       });
                     },
                   ),
@@ -215,7 +269,7 @@ class _ProductAddPageState extends State<ProductAddPage> {
                     return;
                   }
                   
-                  // [BARU] Validasi Kategori
+                  // Validasi Kategori
                   if (_selectedCategory == null) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please select a category")));
                     return;
@@ -223,11 +277,13 @@ class _ProductAddPageState extends State<ProductAddPage> {
 
                   final productProvider = Provider.of<ProductProvider>(context, listen: false);
 
+                  // Kirim ID kategori dan supplier, bukan namanya
                   final success = await productProvider.addProduct(
                     _nameController.text,
                     _priceController.text,
                     _stockController.text,
-                    _selectedCategory!, 
+                    _selectedCategory!.id,        // Category ID
+                    _selectedSupplier?.id,        // Supplier ID (opsional)
                     _descController.text,
                     _imageFile,
                   );

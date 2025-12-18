@@ -8,13 +8,19 @@ import '../../../../core/widgets/custom_button.dart';
 import 'package:gudangku/features/product/presentation/providers/product_provider.dart';
 import 'package:gudangku/features/product/data/models/product_model.dart';
 import 'package:gudangku/features/category/presentation/providers/providers.dart';
+import 'package:gudangku/features/supplier/presentation/providers/supplier_provider.dart';
+import 'package:gudangku/features/category/data/models/category_model.dart';
+import 'package:gudangku/features/supplier/data/models/supplier_model.dart';
 
 class ProductEditScreen extends StatefulWidget {
   final String id;
   final String currentName;
   final String currentPrice; 
   final String currentStock;
-  final String currentCategory;
+  final String? currentCategoryId;
+  final String? currentCategoryName;
+  final String? currentSupplierId;
+  final String? currentSupplierName;
   final String currentDescription;
   final String? currentImageUrl;
 
@@ -24,7 +30,10 @@ class ProductEditScreen extends StatefulWidget {
     required this.currentName,
     required this.currentPrice,
     required this.currentStock,
-    required this.currentCategory,
+    this.currentCategoryId,
+    this.currentCategoryName,
+    this.currentSupplierId,
+    this.currentSupplierName,
     required this.currentDescription,
     this.currentImageUrl,
   });
@@ -39,7 +48,8 @@ class _ProductEditPageState extends State<ProductEditScreen> {
   late TextEditingController _stockController;
   late TextEditingController _descController;
   
-  String? _selectedCategory;
+  CategoryModel? _selectedCategory;
+  SupplierModel? _selectedSupplier;
   File? _newImageFile;
 
   @override
@@ -53,11 +63,40 @@ class _ProductEditPageState extends State<ProductEditScreen> {
     
     _stockController = TextEditingController(text: widget.currentStock);
     _descController = TextEditingController(text: widget.currentDescription);
-    _selectedCategory = widget.currentCategory; // Set kategori awal
 
-    // Fetch kategori biar dropdown tidak kosong
-    Future.microtask(() =>
-        Provider.of<CategoryProvider>(context, listen: false).fetchCategories());
+    // Fetch kategori dan supplier
+    Future.microtask(() {
+      final categoryProvider = Provider.of<CategoryProvider>(context, listen: false);
+      final supplierProvider = Provider.of<SupplierProvider>(context, listen: false);
+      
+      categoryProvider.fetchCategories().then((_) {
+        // Set kategori terpilih berdasarkan ID
+        if (widget.currentCategoryId != null) {
+          final category = categoryProvider.categories.firstWhere(
+            (c) => c.id == widget.currentCategoryId,
+            orElse: () => categoryProvider.categories.isNotEmpty 
+              ? categoryProvider.categories.first 
+              : CategoryModel(id: '', name: '', description: '', isActive: true, hexColor: ''),
+          );
+          if (category.id.isNotEmpty) {
+            setState(() => _selectedCategory = category);
+          }
+        }
+      });
+      
+      supplierProvider.fetchSuppliers().then((_) {
+        // Set supplier terpilih berdasarkan ID
+        if (widget.currentSupplierId != null) {
+          final supplier = supplierProvider.suppliers.firstWhere(
+            (s) => s.id == widget.currentSupplierId,
+            orElse: () => SupplierModel(id: '', name: '', contactPerson: '', phone: '', address: '', email: '', notes: ''),
+          );
+          if (supplier.id.isNotEmpty) {
+            setState(() => _selectedSupplier = supplier);
+          }
+        }
+      });
+    });
   }
 
   @override
@@ -96,6 +135,7 @@ class _ProductEditPageState extends State<ProductEditScreen> {
   Widget build(BuildContext context) {
     final isLoading = context.watch<ProductProvider>().isLoading;
     final categoryProvider = context.watch<CategoryProvider>();
+    final supplierProvider = context.watch<SupplierProvider>();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -154,14 +194,38 @@ class _ProductEditPageState extends State<ProductEditScreen> {
                   color: Colors.grey[100], borderRadius: BorderRadius.circular(12),
                 ),
                 child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
+                  child: DropdownButton<CategoryModel>(
                     value: _selectedCategory,
                     hint: const Text("Select Category"),
                     isExpanded: true,
                     items: categoryProvider.categories.map((cat) {
-                      return DropdownMenuItem(value: cat.name, child: Text(cat.name));
+                      return DropdownMenuItem<CategoryModel>(value: cat, child: Text(cat.name));
                     }).toList(),
                     onChanged: (val) => setState(() => _selectedCategory = val),
+                  ),
+                ),
+              ),
+
+              // Dropdown Supplier
+              const Padding(
+                padding: EdgeInsets.only(bottom: 8),
+                child: Text("Supplier :", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              ),
+              Container(
+                margin: const EdgeInsets.only(bottom: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                decoration: BoxDecoration(
+                  color: Colors.grey[100], borderRadius: BorderRadius.circular(12),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<SupplierModel>(
+                    value: _selectedSupplier,
+                    hint: const Text("Select Supplier (Optional)"),
+                    isExpanded: true,
+                    items: supplierProvider.suppliers.map((sup) {
+                      return DropdownMenuItem<SupplierModel>(value: sup, child: Text(sup.name));
+                    }).toList(),
+                    onChanged: (val) => setState(() => _selectedSupplier = val),
                   ),
                 ),
               ),
@@ -186,9 +250,10 @@ class _ProductEditPageState extends State<ProductEditScreen> {
                     name: _nameController.text,
                     price: doublePrice,
                     stock: intStock,
-                    category: _selectedCategory ?? "-",
                     description: _descController.text,
                     imageUrl: widget.currentImageUrl,
+                    categoryId: _selectedCategory?.id,
+                    supplierId: _selectedSupplier?.id,
                   );
 
                   // Call repository directly to update, then refresh list

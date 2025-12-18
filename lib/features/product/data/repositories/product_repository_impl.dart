@@ -23,7 +23,14 @@ class ProductRepositoryImpl {
     File? newImageFile,
   }) async {
     final client = Supabase.instance.client;
-    Map<String, dynamic> dataToUpdate = product.toJson();
+    Map<String, dynamic> dataToUpdate = {
+      'name': product.name,
+      'price': product.price,
+      'stock': product.stock,
+      'description': product.description,
+      'category_id': product.categoryId,
+      'supplier_id': product.supplierId,
+    };
 
     // 1. If there's a new image, upload it first
     if (newImageFile != null) {
@@ -33,6 +40,8 @@ class ProductRepositoryImpl {
       await client.storage.from(bucketName).upload(fileName, newImageFile);
       final newImageUrl = client.storage.from(bucketName).getPublicUrl(fileName);
       dataToUpdate['image_url'] = newImageUrl;
+    } else if (product.imageUrl != null) {
+      dataToUpdate['image_url'] = product.imageUrl;
     }
 
     // 2. Update the row in the products table

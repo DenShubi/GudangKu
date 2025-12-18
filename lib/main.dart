@@ -82,6 +82,16 @@ class MyApp extends StatelessWidget {
             primary: AppColors.primaryGreen,
           ),
           useMaterial3: true,
+          // Warna loading indicator (CircularProgressIndicator)
+          progressIndicatorTheme: const ProgressIndicatorThemeData(
+            color: AppColors.accentYellow,
+          ),
+          // Warna kursor text field
+          textSelectionTheme: const TextSelectionThemeData(
+            cursorColor: Colors.black,
+            selectionColor: Color(0x40000000),
+            selectionHandleColor: Colors.black,
+          ),
           appBarTheme: const AppBarTheme(
             backgroundColor: Colors.white,
             elevation: 0,

@@ -196,7 +196,7 @@ class _HomePageState extends State<HomePage> {
                         name: product.name,
                         price: "Rp. ${product.price.toStringAsFixed(0)}",
                         stock: product.stock,
-                        category: product.category,
+                        category: product.categoryName ?? '-',
                         imageUrl: product.imageUrl,
                         onTap: () {
                           Navigator.push(
@@ -207,7 +207,10 @@ class _HomePageState extends State<HomePage> {
                                 name: product.name,
                                 price: "Rp. ${product.price.toStringAsFixed(0)}",
                                 stock: "${product.stock}",
-                                category: product.category,
+                                categoryId: product.categoryId,
+                                categoryName: product.categoryName,
+                                supplierId: product.supplierId,
+                                supplierName: product.supplierName,
                                 description: product.description,
                                 imageUrl: product.imageUrl,
                               ),

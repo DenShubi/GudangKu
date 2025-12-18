@@ -8,13 +8,13 @@ class ProductRemoteDataSource {
 
   ProductRemoteDataSource(this.client);
 
-  // 1. Ambil Data (Restore logika agar list tidak kosong)
+  // 1. Ambil Data dengan JOIN ke tabel relasi
   Future<List<ProductModel>> getProducts() async {
     try {
-      // Mengambil data dari tabel 'products' diurutkan dari yang terbaru
+      // Query dengan select join: mengambil produk beserta data kategori dan supplier
       final response = await client
           .from('products')
-          .select()
+          .select('*, categories(*), suppliers(*)')
           .order('created_at', ascending: false);
 
       final data = response as List<dynamic>;

@@ -9,7 +9,10 @@ class ProductDetailPage extends StatelessWidget {
   final String name;
   final String price;
   final String stock;
-  final String category;
+  final String? categoryId;
+  final String? categoryName;
+  final String? supplierId;
+  final String? supplierName;
   final String description;
   final String? imageUrl;
 
@@ -19,7 +22,10 @@ class ProductDetailPage extends StatelessWidget {
     required this.name,
     required this.price,
     required this.stock,
-    required this.category,
+    this.categoryId,
+    this.categoryName,
+    this.supplierId,
+    this.supplierName,
     required this.description,
     this.imageUrl,
   });
@@ -82,7 +88,8 @@ class ProductDetailPage extends StatelessWidget {
               _buildDetailRow("ID", id.length > 8 ? id.substring(0, 8) : id), 
               _buildDetailRow("Price", price),    
               _buildDetailRow("Stock", stock),
-              _buildDetailRow("Category", category),
+              _buildDetailRow("Category", categoryName ?? '-'),
+              _buildDetailRow("Supplier", supplierName ?? '-'),
 
               const SizedBox(height: 20),
               const Text("Description", style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal)),
@@ -97,7 +104,7 @@ class ProductDetailPage extends StatelessWidget {
           ),
         ),
       ),
-      // [FLOATING ACTION BUTTON DIHAPUS DARI SINI]
+      // Floating Action Button
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 20, right: 10),
         child: SizedBox(
@@ -114,14 +121,17 @@ class ProductDetailPage extends StatelessWidget {
                     currentName: name,
                     currentPrice: price, 
                     currentStock: stock,
-                    currentCategory: category,
+                    currentCategoryId: categoryId,
+                    currentCategoryName: categoryName,
+                    currentSupplierId: supplierId,
+                    currentSupplierName: supplierName,
                     currentDescription: description,
                     currentImageUrl: imageUrl,
                   ),
                 ),
               );
             },
-            backgroundColor: AppColors.creamBackground, // Sesuaikan warna
+            backgroundColor: AppColors.creamBackground,
             shape: const CircleBorder(),
             child: const Icon(Icons.edit, color: Colors.white, size: 30),
           ),

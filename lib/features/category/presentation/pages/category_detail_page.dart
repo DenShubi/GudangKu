@@ -79,7 +79,7 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
                 child: Consumer<ProductProvider>(
                   builder: (context, provider, child) {
                     final categoryProducts = provider.products
-                        .where((product) => product.category == widget.name)
+                        .where((product) => product.categoryName == widget.name)
                         .toList();
 
                     // Kondisi Loading
@@ -119,7 +119,7 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
                           price: "Rp. ${product.price.toStringAsFixed(0)}",
                           stock: product.stock,
                           imageUrl: product.imageUrl,
-                          category: product.category,
+                          category: product.categoryName ?? '-',
                           onTap: () {
                             // Navigasi ke Product Detail
                             Navigator.push(
@@ -130,7 +130,10 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
                                   name: product.name,
                                   price: "Rp. ${product.price.toStringAsFixed(0)}",
                                   stock: "${product.stock}",
-                                  category: product.category,
+                                  categoryId: product.categoryId,
+                                  categoryName: product.categoryName,
+                                  supplierId: product.supplierId,
+                                  supplierName: product.supplierName,
                                   description: product.description,
                                   imageUrl: product.imageUrl,
                                 ),

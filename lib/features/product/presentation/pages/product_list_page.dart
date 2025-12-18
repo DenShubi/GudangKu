@@ -91,7 +91,7 @@ class _ProductListPageState extends State<ProductListPage> {
                             name: product.name,
                             // Tampilkan ID pendek di Card (biar rapi)
                             id: product.id.length > 8 ? product.id.substring(0, 8) : product.id,
-                            category: product.category,
+                            category: product.categoryName ?? '-',
                             price: "Rp. ${product.price.toStringAsFixed(0)}",
                             stock: product.stock,
                             imageUrl: product.imageUrl,
@@ -101,13 +101,14 @@ class _ProductListPageState extends State<ProductListPage> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ProductDetailPage(
-
                                     id: product.id, 
-                                    
                                     name: product.name,
                                     price: "Rp. ${product.price.toStringAsFixed(0)}",
                                     stock: "${product.stock}",
-                                    category: product.category,
+                                    categoryId: product.categoryId,
+                                    categoryName: product.categoryName,
+                                    supplierId: product.supplierId,
+                                    supplierName: product.supplierName,
                                     description: product.description,
                                     imageUrl: product.imageUrl,
                                   ),
