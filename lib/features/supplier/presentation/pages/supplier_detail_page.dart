@@ -40,7 +40,7 @@ class SupplierDetailPage extends StatelessWidget {
             children: [
               const CustomHeader(
                 title: "Supplier",
-                showBackButton: false,
+                showBackButton: true,
               ),
               const SizedBox(height: 20),
               Row(
