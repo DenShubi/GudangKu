@@ -88,7 +88,7 @@ class _ProductAddPageState extends State<ProductAddPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const CustomHeader(
-                title: "Products",
+                title: "Add Product",
                 showBackButton: true,
               ),
 

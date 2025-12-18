@@ -73,7 +73,7 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const CustomHeader(
-                title: "Category",
+                title: "Add Category",
                 showBackButton: true,
               ),
               const SizedBox(height: 20),

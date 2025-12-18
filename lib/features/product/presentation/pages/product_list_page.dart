@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/constants/app_colors.dart';
+import '../../../../core/utils/currency_formatter.dart';
 import '../widgets/product_card.dart';
 import '../providers/product_provider.dart';
 import 'product_add_page.dart';
@@ -92,7 +93,7 @@ class _ProductListPageState extends State<ProductListPage> {
                             // Tampilkan ID pendek di Card (biar rapi)
                             id: product.id.length > 8 ? product.id.substring(0, 8) : product.id,
                             category: product.categoryName ?? '-',
-                            price: "Rp. ${product.price.toStringAsFixed(0)}",
+                            price: formatRupiah(product.price),
                             stock: product.stock,
                             imageUrl: product.imageUrl,
                             onTap: () {
@@ -103,7 +104,7 @@ class _ProductListPageState extends State<ProductListPage> {
                                   builder: (context) => ProductDetailPage(
                                     id: product.id, 
                                     name: product.name,
-                                    price: "Rp. ${product.price.toStringAsFixed(0)}",
+                                    price: formatRupiah(product.price),
                                     stock: "${product.stock}",
                                     categoryId: product.categoryId,
                                     categoryName: product.categoryName,

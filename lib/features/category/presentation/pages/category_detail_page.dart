@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/constants/app_colors.dart';
+import '../../../../core/utils/currency_formatter.dart';
 import '../../../../core/widgets/custom_header.dart';
 import '../../../product/presentation/providers/product_provider.dart';
 import '../../../product/presentation/widgets/product_card.dart';
@@ -116,7 +117,7 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
                               ? product.id.substring(0, 8) 
                               : product.id,
                           name: product.name,
-                          price: "Rp. ${product.price.toStringAsFixed(0)}",
+                          price: formatRupiah(product.price),
                           stock: product.stock,
                           imageUrl: product.imageUrl,
                           category: product.categoryName ?? '-',
@@ -128,7 +129,7 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
                                 builder: (context) => ProductDetailPage(
                                   id: product.id,
                                   name: product.name,
-                                  price: "Rp. ${product.price.toStringAsFixed(0)}",
+                                  price: formatRupiah(product.price),
                                   stock: "${product.stock}",
                                   categoryId: product.categoryId,
                                   categoryName: product.categoryName,

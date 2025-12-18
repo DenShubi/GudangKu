@@ -62,7 +62,7 @@ class SupplierCard extends StatelessWidget {
                       child: Text(
                         initial,
                         style: const TextStyle(
-                          fontSize: 24,
+                          fontSize: 50,
                           fontWeight: FontWeight.bold,
                           color: Colors.black54,
                         ),

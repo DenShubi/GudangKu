@@ -41,7 +41,7 @@ class ProductDetailPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const CustomHeader(
-                title: "Products",
+                title: "Product",
                 showBackButton: true,
               ),
               

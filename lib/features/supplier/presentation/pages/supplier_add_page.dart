@@ -76,7 +76,7 @@ class _SupplierAddPageState extends State<SupplierAddPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const CustomHeader(title: "Supplier", showBackButton: true),
+              const CustomHeader(title: "Add Supplier", showBackButton: true),
 
               const SizedBox(height: 20),
 

@@ -6,6 +6,7 @@ import '../../../auth/presentation/providers/profile_provider.dart';
 import '../../../product/presentation/providers/product_provider.dart';
 import '../../../product/presentation/widgets/product_card.dart';
 import '../../../product/presentation/pages/product_detail_page.dart';
+import '../../../../core/utils/currency_formatter.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -194,7 +195,7 @@ class _HomePageState extends State<HomePage> {
                       return ProductCard(
                         id: product.id.length > 8 ? product.id.substring(0, 8) : product.id,
                         name: product.name,
-                        price: "Rp. ${product.price.toStringAsFixed(0)}",
+                        price: formatRupiah(product.price),
                         stock: product.stock,
                         category: product.categoryName ?? '-',
                         imageUrl: product.imageUrl,
@@ -205,7 +206,7 @@ class _HomePageState extends State<HomePage> {
                               builder: (context) => ProductDetailPage(
                                 id: product.id,
                                 name: product.name,
-                                price: "Rp. ${product.price.toStringAsFixed(0)}",
+                                price: formatRupiah(product.price),
                                 stock: "${product.stock}",
                                 categoryId: product.categoryId,
                                 categoryName: product.categoryName,
