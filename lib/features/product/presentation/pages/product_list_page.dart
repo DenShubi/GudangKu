@@ -15,7 +15,10 @@ class ProductListPage extends StatefulWidget {
   State<ProductListPage> createState() => _ProductListPageState();
 }
 
-class _ProductListPageState extends State<ProductListPage> {
+class _ProductListPageState extends State<ProductListPage> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   void initState() {
     super.initState();
@@ -25,6 +28,7 @@ class _ProductListPageState extends State<ProductListPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context); // Required for AutomaticKeepAliveClientMixin
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
