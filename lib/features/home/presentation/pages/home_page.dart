@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                     children: [
                       const Text(
                         "Hello",
-                        style: TextStyle(color: Colors.grey, fontSize: 17),
+                        style: const TextStyle(color: Colors.grey, fontSize: 17),
                       ),
                       Text(
                         _username,
@@ -171,7 +171,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 
               const Text(
                 "Items",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 15),
 
@@ -184,7 +184,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                   if (provider.products.isEmpty) {
                     return const Center(
                       child: Padding(
-                        padding: EdgeInsets.only(top: 50),
+                        padding: const EdgeInsets.only(top: 50),
                         child: Text("Tidak ada item."),
                       ),
                     );
