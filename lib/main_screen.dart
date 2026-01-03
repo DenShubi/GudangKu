@@ -16,13 +16,24 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final PageController _pageController = PageController(initialPage: 0);
   int _currentIndex = 0;
-  final List<Widget> _pages = [
-    const HomePage(),
-    const ProductListPage(),
-    const SupplierListPage(),
-    const CategoryListPage(),
-    const SettingPage(),
-  ];
+
+  // Build page on-demand instead of pre-creating all pages
+  Widget _buildPage(int index) {
+    switch (index) {
+      case 0:
+        return const HomePage();
+      case 1:
+        return const ProductListPage();
+      case 2:
+        return const SupplierListPage();
+      case 3:
+        return const CategoryListPage();
+      case 4:
+        return const SettingPage();
+      default:
+        return const HomePage();
+    }
+  }
 
   @override
   void dispose() {
@@ -37,7 +48,7 @@ class _MainScreenState extends State<MainScreen> {
       extendBody: true,
       body: PageView.builder(
         controller: _pageController,
-        itemCount: _pages.length,
+        itemCount: 5,
         // physics: const NeverScrollableScrollPhysics(), // Hapus komentar ini jika ingin MEMATIKAN fitur swipe
         onPageChanged: (index) {
           // Saat user menggeser (swipe), update icon di navbar
@@ -46,8 +57,8 @@ class _MainScreenState extends State<MainScreen> {
           });
         },
         itemBuilder: (context, index) {
-          // Only build the current page and adjacent pages
-          return _pages[index];
+          // Build pages dynamically for true lazy loading
+          return _buildPage(index);
         },
       ),
       

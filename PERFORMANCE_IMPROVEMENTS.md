@@ -74,29 +74,39 @@ final stockTextColor = _getStockTextColor(stock);
 
 ---
 
-### 5. Optimized PageView with Builder Pattern
+### 5. Optimized PageView with Dynamic Page Building
 **File:** `lib/main_screen.dart`
 
-**Issue:** All pages were pre-created and kept in memory:
+**Issue:** All pages were pre-created and kept in memory, even when not visible:
 ```dart
+final List<Widget> _pages = [
+  const HomePage(),
+  const ProductListPage(),
+  // ... all pages created upfront
+];
 body: PageView(
-  controller: _pageController,
   children: _pages,
 )
 ```
 
-**Solution:** Use `PageView.builder` for lazy loading:
+**Solution:** Dynamically build pages on-demand using a factory method:
 ```dart
+Widget _buildPage(int index) {
+  switch (index) {
+    case 0: return const HomePage();
+    case 1: return const ProductListPage();
+    // ... build only when needed
+  }
+}
+
 body: PageView.builder(
-  controller: _pageController,
-  itemCount: _pages.length,
   itemBuilder: (context, index) {
-    return _pages[index];
+    return _buildPage(index);
   },
 )
 ```
 
-**Impact:** Reduces initial memory usage by building pages on-demand.
+**Impact:** True lazy loading - pages are only created when navigated to, significantly reducing initial memory footprint.
 
 ---
 
