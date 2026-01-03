@@ -18,7 +18,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   String _username = "User";
   
-  // Estimated stock out value for dashboard summary
+  // Placeholder value for stock out in dashboard summary
+  // TODO: Replace with actual stock out tracking from database
   static const int _estimatedStockOut = 50;
 
   @override

@@ -106,7 +106,7 @@ body: PageView.builder(
 )
 ```
 
-**Impact:** True lazy loading - pages are only created when navigated to, significantly reducing initial memory footprint.
+**Impact:** True lazy loading - pages are only created when navigated to, significantly reducing initial memory footprint. Combined with AutomaticKeepAliveClientMixin on individual pages, this approach provides optimal performance: pages are built on-demand but state is preserved when switching between them.
 
 ---
 
