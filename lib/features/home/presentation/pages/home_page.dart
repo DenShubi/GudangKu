@@ -106,14 +106,14 @@ class _HomePageState extends State<HomePage> {
 
               Consumer<ProductProvider>(
                 builder: (context, provider, _) {
-                  int currentStock = 0;
-                  for (var product in provider.products) {
-                    currentStock += product.stock; 
-                  }
+                  // Optimized: Use fold instead of manual loop
+                  final currentStock = provider.products.fold<int>(
+                    0,
+                    (sum, product) => sum + product.stock,
+                  );
 
-                  int stockOut = 50;
-
-                  int totalCalculated = currentStock + stockOut;
+                  const stockOut = 50;
+                  final totalCalculated = currentStock + stockOut;
 
                   return Container(
                     width: double.infinity,

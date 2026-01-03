@@ -6,8 +6,6 @@ import '../../data/repositories/product_repository_impl.dart';
 
 class ProductProvider extends ChangeNotifier {
   final ProductRepositoryImpl repository;
-  
-  final SupabaseClient supabase = Supabase.instance.client;
 
   ProductProvider(this.repository);
 
@@ -27,12 +25,9 @@ class ProductProvider extends ChangeNotifier {
   notifyListeners(); 
   
   try {
-    print("Fetching products..."); 
     _products = await repository.getProducts();
-    print("Fetched ${_products.length} products"); 
     _errorMessage = null;
   } catch (e) {
-    print("Error fetching products: $e"); 
     _errorMessage = e.toString();
   }
   
@@ -60,6 +55,7 @@ class ProductProvider extends ChangeNotifier {
       if (imageFile != null) {
         final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
         const bucketName = 'product-images';
+        final supabase = Supabase.instance.client;
         
         await supabase.storage.from(bucketName).upload(fileName, imageFile);
         imageUrl = supabase.storage.from(bucketName).getPublicUrl(fileName);
@@ -81,6 +77,7 @@ class ProductProvider extends ChangeNotifier {
       );
 
       await repository.addProduct(newProduct);
+      // Optimized: Fetch only once after operation to get server-generated data
       await fetchProducts();
       
       _isLoading = false;

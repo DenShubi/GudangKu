@@ -35,8 +35,9 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       extendBody: true,
-      body: PageView(
+      body: PageView.builder(
         controller: _pageController,
+        itemCount: _pages.length,
         // physics: const NeverScrollableScrollPhysics(), // Hapus komentar ini jika ingin MEMATIKAN fitur swipe
         onPageChanged: (index) {
           // Saat user menggeser (swipe), update icon di navbar
@@ -44,7 +45,10 @@ class _MainScreenState extends State<MainScreen> {
             _currentIndex = index;
           });
         },
-        children: _pages,
+        itemBuilder: (context, index) {
+          // Only build the current page and adjacent pages
+          return _pages[index];
+        },
       ),
       
       bottomNavigationBar: CustomBottomNavBar(
