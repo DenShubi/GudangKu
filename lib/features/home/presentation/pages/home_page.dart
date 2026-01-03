@@ -15,8 +15,15 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   String _username = "User";
+  
+  // Placeholder value for stock out in dashboard summary
+  // TODO: Replace with actual stock out tracking from database
+  static const int _estimatedStockOut = 50;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -42,6 +49,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context); // Required for AutomaticKeepAliveClientMixin
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -106,14 +114,13 @@ class _HomePageState extends State<HomePage> {
 
               Consumer<ProductProvider>(
                 builder: (context, provider, _) {
-                  int currentStock = 0;
-                  for (var product in provider.products) {
-                    currentStock += product.stock; 
-                  }
+                  // Optimized: Use fold instead of manual loop
+                  final currentStock = provider.products.fold<int>(
+                    0,
+                    (sum, product) => sum + product.stock,
+                  );
 
-                  int stockOut = 50;
-
-                  int totalCalculated = currentStock + stockOut;
+                  final totalCalculated = currentStock + _estimatedStockOut;
 
                   return Container(
                     width: double.infinity,
@@ -153,7 +160,7 @@ class _HomePageState extends State<HomePage> {
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 20),
-                                child: _buildSummaryItem(stockOut.toString(), "Stock Out"),
+                                child: _buildSummaryItem(_estimatedStockOut.toString(), "Stock Out"),
                               ),
                             ),
                           ],

@@ -15,11 +15,14 @@ class SettingPage extends StatefulWidget {
   State<SettingPage> createState() => _SettingPageState();
 }
 
-class _SettingPageState extends State<SettingPage> {
+class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClientMixin {
   String _email = "Loading...";
   String _userId = "...";
   String _initial = "U";
   final ImagePicker _picker = ImagePicker();
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -122,6 +125,7 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context); // Required for AutomaticKeepAliveClientMixin
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(

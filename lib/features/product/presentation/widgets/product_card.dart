@@ -38,6 +38,10 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Cache color calculations
+    final stockColor = _getStockColor(stock);
+    final stockTextColor = _getStockTextColor(stock);
+    
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -103,19 +107,19 @@ class ProductCard extends StatelessWidget {
                       
                       const SizedBox(width: 8),
 
-                      // KOTAK STOK [UPDATE UI]
+                      // KOTAK STOK [Optimized with cached colors]
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
-                          color: _getStockColor(stock), // Warna dinamis
-                          borderRadius: BorderRadius.circular(8), // Rounded kotak
+                          color: stockColor,
+                          borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
                           "$stock",
                           style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
-                            color: _getStockTextColor(stock),
+                            color: stockTextColor,
                           ),
                         ),
                       ),

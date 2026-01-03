@@ -14,7 +14,10 @@ class SupplierListPage extends StatefulWidget {
   State<SupplierListPage> createState() => _SupplierListPageState();
 }
 
-class _SupplierListPageState extends State<SupplierListPage> {
+class _SupplierListPageState extends State<SupplierListPage> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   void initState() {
     super.initState();
@@ -28,6 +31,7 @@ class _SupplierListPageState extends State<SupplierListPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context); // Required for AutomaticKeepAliveClientMixin
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
