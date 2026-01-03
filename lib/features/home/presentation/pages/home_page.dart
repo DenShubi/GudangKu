@@ -17,6 +17,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   String _username = "User";
+  
+  // Estimated stock out value for dashboard summary
+  static const int _estimatedStockOut = 50;
 
   @override
   bool get wantKeepAlive => true;
@@ -116,8 +119,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                     (sum, product) => sum + product.stock,
                   );
 
-                  const stockOut = 50;
-                  final totalCalculated = currentStock + stockOut;
+                  final totalCalculated = currentStock + _estimatedStockOut;
 
                   return Container(
                     width: double.infinity,
@@ -157,7 +159,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 20),
-                                child: _buildSummaryItem(stockOut.toString(), "Stock Out"),
+                                child: _buildSummaryItem(_estimatedStockOut.toString(), "Stock Out"),
                               ),
                             ),
                           ],
